@@ -1,0 +1,32 @@
+import { QueryResult } from "@apollo/client";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+import { GET_CURRENCIES } from "../../grapgQL/queries";
+
+export class Currencies extends Component {
+  render() {
+    return (
+      <>
+        <Query query={GET_CURRENCIES}>
+          {(result: QueryResult<CurrencyQueryResponse>) => {
+            const { loading, error, data } = result;
+            if (loading) return <h1>Loading...</h1>;
+            if (error) console.log(error);
+            return (
+              <select>
+                {data?.currencies.map((c) => {
+                  return <option key={c}>{c}</option>;
+                })}
+              </select>
+            );
+          }}
+        </Query>
+      </>
+    );
+  }
+}
+
+// Types
+interface CurrencyQueryResponse {
+  currencies: string[];
+}

@@ -9,8 +9,8 @@ export const GET_CATEGORIES = gql`
 `;
 
 export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
-  query {
-    category(input: { title: "tech" }) {
+  query ($title: String!) {
+    category(input: { title: $title }) {
       products {
         name
         id
@@ -24,6 +24,22 @@ export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
     }
   }
 `;
+
+//     query {
+//     category(input: { title: "tech" }) {
+//       products {
+//         name
+//         id
+//         prices {
+//           currency
+//           amount
+//         }
+//         gallery
+//         inStock
+//       }
+//     }
+//   }
+// `;
 
 export const GET_PRODUCT_BY_ID = gql`
   query {
