@@ -3,7 +3,7 @@ import { QueryResult } from "@apollo/client";
 import { Query } from "@apollo/client/react/components";
 import styles from "./Navbar.module.scss";
 import { GET_CATEGORIES } from "../../grapgQL/queries";
-
+import { NavLink } from "react-router-dom";
 export class Categories extends Component {
   render() {
     return (
@@ -17,7 +17,7 @@ export class Categories extends Component {
               {data?.categories.map((c) => {
                 return (
                   <li key={c.name}>
-                    <a href="#">{c.name}</a>
+                    <NavLink to={`/${c.name}`}>{c.name}</NavLink>
                     <div className={styles.underline}></div>
                   </li>
                 );

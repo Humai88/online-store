@@ -2,22 +2,31 @@
   width: 386px;
   height: 444px;
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 1rem;
+
+  margin-bottom: 2rem;
   cursor: pointer;
+  flex: 0 0 33.333333%;
+
   &:hover {
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
   }
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 356px;
+    margin: 0 auto;
+  }
   .img {
+    display: block;
     height: 338px;
     width: 356px;
+    margin: 0 auto;
   }
+
   .title {
     font-size: 18px;
     font-weight: 300;
-    margin-top: 0.7rem;
+    margin-top: 1.5rem;
   }
   .price {
     font-size: 18px;

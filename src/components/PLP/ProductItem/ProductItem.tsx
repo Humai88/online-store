@@ -5,13 +5,15 @@ export default class ProductItem extends Component<ProductItemPropsType> {
   render() {
     return (
       <div className={styles.wrapper}>
-        <img
-          className={styles.img}
-          src={this.props.imgSrc}
-          alt={this.props.title}
-        />
-        <div className={styles.title}>{this.props.title}</div>
-        <div className={styles.price}>$ {this.props.price}</div>
+        <div className={styles.content}>
+          <img
+            className={styles.img}
+            src={this.props.imgSrc}
+            alt={this.props.title}
+          />
+          <div className={styles.title}>{this.props.title}</div>
+          <div className={styles.price}>$ {this.props.price}</div>
+        </div>
       </div>
     );
   }

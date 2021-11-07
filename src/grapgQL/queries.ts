@@ -9,16 +9,16 @@ export const GET_CATEGORIES = gql`
 `;
 
 export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
-  query ($title: String!) {
-    category(input: { title: $title }) {
+  query ($category: String!) {
+    category(input: { title: $category }) {
       products {
         name
         id
+        gallery
         prices {
           currency
           amount
         }
-        gallery
         inStock
       }
     }
