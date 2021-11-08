@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { PLP } from "./components/PLP/PLP";
 import styles from "./App.module.scss";
 import { Navbar } from "./components/Navbar/Navbar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PDP } from "./components/PDP/PDP";
 
 const client = new ApolloClient({
@@ -16,12 +16,11 @@ function App() {
     <BrowserRouter>
       <ApolloProvider client={client}>
         <Navbar />
-
         <main className={styles.main}>
-          <Routes>
-            <Route path="/:category" element={<PLP />} />
-            <Route path="/:category/:id" element={<PDP />} />
-          </Routes>
+          <Switch>
+            <Route path="/:category" exact component={PLP} />
+            <Route path="/:category/:id" exact component={PDP} />
+          </Switch>
         </main>
       </ApolloProvider>
     </BrowserRouter>

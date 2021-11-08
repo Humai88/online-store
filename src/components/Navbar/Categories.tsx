@@ -5,20 +5,7 @@ import styles from "./Navbar.module.scss";
 import { GET_CATEGORIES } from "../../grapgQL/queries";
 import { NavLink } from "react-router-dom";
 import { Spinner } from "../../UI-kit/Spinner";
-export class Categories extends Component<PropsType, StateType> {
-  constructor(props: PropsType) {
-    super(props);
-    this.state = {
-      clickedItem: 0,
-    };
-  }
-  componentDidMount() {
-    const category = localStorage.getItem("category");
-    if (category) {
-      this.setState({ clickedItem: +category });
-    }
-  }
-
+export class Categories extends Component {
   render() {
     return (
       <Query query={GET_CATEGORIES}>
@@ -27,32 +14,18 @@ export class Categories extends Component<PropsType, StateType> {
           if (loading) return <Spinner />;
           if (error) console.log(error);
           return (
-            <>
-              {data?.categories.map((c, i) => {
+            <ul>
+              {data?.categories.map((c) => {
                 return (
-                  <li
-                    className={
-                      i === this.state.clickedItem ? `${styles.active}` : ""
-                    }
-                    key={c.name}
-                    onClick={() => {
-                      this.setState({
-                        clickedItem: i,
-                      });
-                      localStorage.setItem(
-                        "categoty",
-                        String(this.state.clickedItem)
-                      );
-                    }}
-                  >
-                    <NavLink to={`/${c.name}`}>
+                  <li key={c.name}>
+                    <NavLink activeClassName={styles.active} to={`/${c.name}`}>
                       {c.name}
                       <div className={styles.underline}></div>
                     </NavLink>
                   </li>
                 );
               })}
-            </>
+            </ul>
           );
         }}
       </Query>
@@ -60,11 +33,7 @@ export class Categories extends Component<PropsType, StateType> {
   }
 }
 
-// Tyles
-type StateType = {
-  clickedItem: number;
-};
-type PropsType = {};
+// Types
 interface CategoriesQueryResponse {
   categories: Category[];
 }

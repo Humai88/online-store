@@ -35,14 +35,15 @@
         cursor: pointer;
       }
     }
+    .active .underline {
+      width: 100%;
+      background-color: #5ece7b;
+    }
+    .active {
+      color: #5ece7b;
+    }
   }
-  ul li.active .underline {
-    width: 100%;
-    background-color: #5ece7b;
-  }
-  ul li.active a {
-    color: #5ece7b;
-  }
+
   ul li:hover .underline {
     background-color: #5ece7b;
     width: 100%;

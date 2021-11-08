@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import { GET_CURRENCIES } from "../../grapgQL/queries";
 import { Spinner } from "../../UI-kit/Spinner";
+import { IoLogoUsd } from "react-icons/io";
 
 export class Currencies extends Component {
   render() {
@@ -16,7 +17,23 @@ export class Currencies extends Component {
             return (
               <select>
                 {data?.currencies.map((c) => {
-                  return <option key={c}>{c}</option>;
+                  if (c == "USD") {
+                    return <option key={c}>&#36;</option>;
+                  }
+                  if (c == "GBP") {
+                    return <option key={c}>&#163;</option>;
+                  }
+                  if (c == "AUD") {
+                    return <option key={c}>A&#36;</option>;
+                  }
+
+                  if (c == "JPY") {
+                    return <option key={c}> &#165;</option>;
+                  }
+
+                  if (c == "RUB") {
+                    return <option key={c}> &#8381;</option>;
+                  }
                 })}
               </select>
             );

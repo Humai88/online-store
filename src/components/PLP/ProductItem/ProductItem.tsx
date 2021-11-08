@@ -4,16 +4,13 @@ import styles from "./ProductItem.module.scss";
 
 export default class ProductItem extends Component<ProductItemPropsType> {
   render() {
+    const { title, price, imgSrc, link } = this.props;
     return (
-      <NavLink to={this.props.link} className={styles.wrapper}>
+      <NavLink to={link} className={styles.wrapper}>
         <div className={styles.content}>
-          <img
-            className={styles.img}
-            src={this.props.imgSrc}
-            alt={this.props.title}
-          />
-          <div className={styles.title}>{this.props.title}</div>
-          <div className={styles.price}>$ {this.props.price}</div>
+          <img className={styles.img} src={imgSrc} alt={title} />
+          <div className={styles.title}>{title}</div>
+          <div className={styles.price}>$ {price}</div>
         </div>
       </NavLink>
     );
