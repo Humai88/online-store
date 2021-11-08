@@ -5,37 +5,44 @@ import { Query } from "@apollo/client/react/components";
 import ProductItem from "./ProductItem/ProductItem";
 import styles from "./PLP.module.scss";
 import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Spinner } from "../../UI-kit/Spinner";
+// import { RouteComponentProps } from "react-router";
 
-// export class PLP extends Component {
+// export class PLP extends Component<PropsType> {
 //   render() {
+
+//     const category = this.props.match.params.category;
 //     console.log(this.props);
 //     return (
 //       <>
-//         <h2 className={styles.header}>Categoty title</h2>
+//         <h2 className={styles.header}>{category}</h2>
 //         <div className={styles.wrapper}>
-{
-  /* <Query query={GET_PRODUCTS_BY_CATEGORY_TITLE} variables={{ title }}>
-            {(result: QueryResult<PLPQueryResponse>) => {
-              const { loading, error, data } = result;
-              if (loading) return <h1>Loading...</h1>;
-              if (error) console.log(error);
-              return (
-                <>
-                  {data?.category.products.map((p) => {
-                    return (
-                      <ProductItem
-                        imgSrc={p.gallery[0]}
-                        key={p.id}
-                        title={p.name}
-                        price={p.prices[0].amount}
-                      />
-                    );
-                  })}
-                </>
-              );
-            }}
-          </Query> */
-}
+//           <Query
+//             query={GET_PRODUCTS_BY_CATEGORY_TITLE}
+//             variables={{ category }}
+//           >
+//             {(result: QueryResult<PLPQueryResponse>) => {
+//               const { loading, error, data } = result;
+//               if (loading) return <Spinner />;
+//               if (error) console.log(error);
+//               return (
+//                 <>
+//                   {data?.category.products.map((p) => {
+//                     return (
+//                       <ProductItem
+//                         link={p.id}
+//                         imgSrc={p.gallery[0]}
+//                         key={p.id}
+//                         title={`${p.brand} ${p.name}`}
+//                         price={p.prices[0].amount}
+//                       />
+//                     );
+//                   })}
+//                 </>
+//               );
+//             }}
+//           </Query>
 //         </div>
 //       </>
 //     );
@@ -44,23 +51,25 @@ import { useParams } from "react-router-dom";
 
 export const PLP = () => {
   const { category } = useParams();
+
   return (
     <>
-      <h2 className={styles.header}>Categoty title</h2>
+      <h2 className={styles.header}>{category}</h2>
       <div className={styles.wrapper}>
         <Query query={GET_PRODUCTS_BY_CATEGORY_TITLE} variables={{ category }}>
           {(result: QueryResult<PLPQueryResponse>) => {
             const { loading, error, data } = result;
-            if (loading) return <h1>Loading...</h1>;
+            if (loading) return <Spinner />;
             if (error) console.log(error);
             return (
               <>
                 {data?.category.products.map((p) => {
                   return (
                     <ProductItem
+                      link={p.id}
                       imgSrc={p.gallery[0]}
                       key={p.id}
-                      title={p.name}
+                      title={`${p.brand} ${p.name}`}
                       price={p.prices[0].amount}
                     />
                   );
@@ -74,7 +83,11 @@ export const PLP = () => {
   );
 };
 
-// Types
+//Types;
+// type PropsType = RouteComponentProps<PathParamsType>;
+// type PathParamsType = {
+//   category: string;
+// };
 interface PLPQueryResponse {
   category: Category;
 }
@@ -88,6 +101,7 @@ interface Product {
   inStock: boolean;
   gallery: string[];
   prices: Price[];
+  brand: string;
 }
 
 interface Price {

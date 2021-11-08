@@ -4,6 +4,7 @@ import { PLP } from "./components/PLP/PLP";
 import styles from "./App.module.scss";
 import { Navbar } from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { PDP } from "./components/PDP/PDP";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -15,11 +16,12 @@ function App() {
     <BrowserRouter>
       <ApolloProvider client={client}>
         <Navbar />
+
         <main className={styles.main}>
           <Routes>
             <Route path="/:category" element={<PLP />} />
+            <Route path="/:category/:id" element={<PDP />} />
           </Routes>
-          {/* <PLP /> */}
         </main>
       </ApolloProvider>
     </BrowserRouter>

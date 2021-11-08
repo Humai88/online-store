@@ -20,30 +20,15 @@ export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
           amount
         }
         inStock
+        brand
       }
     }
   }
 `;
 
-//     query {
-//     category(input: { title: "tech" }) {
-//       products {
-//         name
-//         id
-//         prices {
-//           currency
-//           amount
-//         }
-//         gallery
-//         inStock
-//       }
-//     }
-//   }
-// `;
-
 export const GET_PRODUCT_BY_ID = gql`
-  query {
-    product(id: "xbox-series-s") {
+  query ($id: String!) {
+    product(id: $id) {
       description
       id
       name
@@ -52,6 +37,10 @@ export const GET_PRODUCT_BY_ID = gql`
       category
       attributes {
         type
+        name
+        items {
+          displayValue
+        }
       }
       prices {
         currency

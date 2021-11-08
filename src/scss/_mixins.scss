@@ -1,0 +1,67 @@
+// Media queries
+
+@mixin media-query($type, $breakpoint: $lap-start) {
+  @if $type == "min" {
+    @media only screen and (min-width: $breakpoint) {
+      @content;
+    }
+  } @else if $type == "max" {
+    @media only screen and (max-width: $breakpoint - 1px) {
+      @content;
+    }
+  } @else if $type == "palm" {
+    @media only screen and (max-width: $lap-start - 1px) {
+      @content;
+    }
+  } @else if $type == "lap" {
+    @media only screen and (min-width: $lap-start) and (max-width: $desk-start - 1px) {
+      @content;
+    }
+  } @else if $type == "desk" {
+    @media only screen and (min-width: $desk-start) {
+      @content;
+    }
+  } @else if $type == "wide" {
+    @media only screen and (min-width: $wide-start) {
+      @content;
+    }
+  }
+}
+
+// @include media-query("min", $palm-start){.....styles}
+
+@mixin header {
+  font-family: $josefin;
+  color: $color-body;
+  letter-spacing: 2px;
+  font-size: 3.3rem;
+  text-align: center;
+  font-weight: 600;
+  padding: 7rem 0 2.5rem 0;
+  @include media-query("max", $palm-start) {
+    font-size: 2.4rem;
+    padding: 4rem 0 2rem 0;
+  }
+}
+@mixin container {
+  margin: 0 auto;
+  display: flex;
+}
+@mixin line {
+  height: 3px;
+  width: 5rem;
+  background: var(--toggle-color);
+  margin: 0 auto;
+  margin-bottom: 5rem;
+  @include media-query("max", $palm-start) {
+    margin-bottom: 5rem;
+  }
+}
+/* EXAMPLE
+input,  
+textarea {  
+    @include input-placeholder {
+        color: $grey;
+    }
+}
+*/
