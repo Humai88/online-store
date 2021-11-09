@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import { GET_CURRENCIES } from "../../grapgQL/queries";
 import { Spinner } from "../../UI-kit/Spinner";
-import { IoLogoUsd } from "react-icons/io";
 
 export class Currencies extends Component {
   render() {

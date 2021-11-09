@@ -5,6 +5,7 @@ import styles from "./App.module.scss";
 import { Navbar } from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PDP } from "./components/PDP/PDP";
+import { Cart } from "./components/Cart/Cart";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -20,6 +21,7 @@ function App() {
           <Switch>
             <Route path="/:category" exact component={PLP} />
             <Route path="/:category/:id" exact component={PDP} />
+            <Route path="/:categoty/cart" exact component={Cart} />
           </Switch>
         </main>
       </ApolloProvider>

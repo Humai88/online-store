@@ -4,10 +4,13 @@ import styles from "./ProductItem.module.scss";
 
 export default class ProductItem extends Component<ProductItemPropsType> {
   render() {
-    const { title, price, imgSrc, link } = this.props;
+    const { title, price, imgSrc, link, inStock } = this.props;
     return (
       <NavLink to={link} className={styles.wrapper}>
-        <div className={styles.content}>
+        <div
+          style={{ opacity: inStock ? "1" : "0.6" }}
+          className={styles.content}
+        >
           <img className={styles.img} src={imgSrc} alt={title} />
           <div className={styles.title}>{title}</div>
           <div className={styles.price}>$ {price}</div>
@@ -23,4 +26,5 @@ type ProductItemPropsType = {
   price: number;
   imgSrc: string;
   link: string;
+  inStock?: boolean;
 };

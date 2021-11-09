@@ -1,10 +1,9 @@
-import { QueryResult, useQuery } from "@apollo/client";
+import { QueryResult } from "@apollo/client";
 import { GET_PRODUCTS_BY_CATEGORY_TITLE } from "../../grapgQL/queries";
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import { Query } from "@apollo/client/react/components";
 import ProductItem from "./ProductItem/ProductItem";
 import styles from "./PLP.module.scss";
-//import { useParams } from "react-router-dom";
 import { Spinner } from "../../UI-kit/Spinner";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
@@ -23,13 +22,13 @@ export class PLP extends Component<PLPPropsType> {
               const { loading, error, data } = result;
               if (loading) return <Spinner />;
               if (error) console.log(error);
-
               return (
                 <>
                   {data?.category.products.map((p) => {
                     return (
                       <ProductItem
                         link={`/${category}/${p.id}`}
+                        inStock={p.inStock}
                         imgSrc={p.gallery[0]}
                         key={p.id}
                         title={`${p.brand} ${p.name}`}
@@ -47,42 +46,7 @@ export class PLP extends Component<PLPPropsType> {
   }
 }
 
-// export const PLP = () => {
-//   const { category } = useParams<{ category: string }>();
-
-//   return (
-//     <>
-//       <h2 className={styles.header}>{category}</h2>
-//       <div className={styles.wrapper}>
-//         <Query query={GET_PRODUCTS_BY_CATEGORY_TITLE} variables={{ category }}>
-//           {(result: QueryResult<PLPQueryResponse>) => {
-//             const { loading, error, data } = result;
-//             if (loading) return <Spinner />;
-//             if (error) console.log(error);
-//             return (
-//               <>
-//                 {data?.category.products.map((p) => {
-//                   return (
-//                     <ProductItem
-//                       link={`/${category}/${p.id}`}
-//                       imgSrc={p.gallery[0]}
-//                       key={p.id}
-//                       title={`${p.brand} ${p.name}`}
-//                       price={p.prices[0].amount}
-//                     />
-//                   );
-//                 })}
-//               </>
-//             );
-//           }}
-//         </Query>
-//       </div>
-//     </>
-//   );
-// };
-
 //Types;
-
 type PLPPropsType = RouteComponentProps<PathParamsType>;
 type PathParamsType = {
   category: string;

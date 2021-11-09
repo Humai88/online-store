@@ -11,4 +11,11 @@
   &:hover {
     background: #419758;
   }
+  &:disabled {
+    opacity: 0.6;
+    cursor: auto;
+  }
+  &[disabled]:hover {
+    background: #5ece7b;
+  }
 }
