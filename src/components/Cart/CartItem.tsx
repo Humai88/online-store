@@ -1,11 +1,11 @@
 import React, { Component, DetailedHTMLProps, HTMLAttributes } from "react";
-import { AttributeSet, Price } from "../../redux/reducers/cartReducer";
+import { AttributeSet, Price } from "../../redux/reducers/shoppingReducer";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
 import styles from "./CartItem.module.scss";
 
 export class CartItem extends Component<CartItemProps & DefaultDivPropsType> {
   render() {
-    const { prices, brand, name, attributes, gallery } = this.props;
+    const { prices, brand, name, attributes, gallery, qty } = this.props;
     return (
       <>
         <div className={styles.wrapper}>
@@ -31,13 +31,13 @@ export class CartItem extends Component<CartItemProps & DefaultDivPropsType> {
           <div className={styles.productCount}>
             <div className={styles.count}>
               <SquareBtn>+</SquareBtn>
-              <div className={styles.totalItems}>0</div>
+              <div className={styles.totalItems}>{qty}</div>
               <SquareBtn>-</SquareBtn>
               {/* <SquareBtn onClick={this.props.incrValue}>+</SquareBtn>
               <div className={styles.totalItems}>0</div>
               <SquareBtn onClick={this.props.decrValue}>-</SquareBtn> */}
             </div>
-            <img className={styles.img} src={gallery[0]} alt="" />
+            <img className={styles.img} src={gallery[0]} alt={name} />
           </div>
         </div>
       </>
@@ -52,6 +52,7 @@ interface CartItemProps {
   name: string;
   attributes: AttributeSet[];
   gallery: string[];
+  qty: number;
   // incrValue: () => void;
   // decrValue: () => void;
 }

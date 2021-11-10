@@ -11,6 +11,7 @@ export class Cart extends Component {
         {fakeData.map((p) => {
           return (
             <CartItem
+              qty={p.qty}
               key={v4()}
               brand={p.brand}
               name={p.name}

@@ -6,7 +6,10 @@ import { SquareBtn } from "../../UI-kit/SquareBtn";
 import { v4 } from "uuid";
 import { PDPQueryResponse } from "../../grapgQL/PDPResponseType";
 import { AppStore } from "../../redux/store/store";
-import { getProductByIdTC } from "../../redux/reducers/productsReducer";
+import {
+  getProductByIdTC,
+  ProductsStateType,
+} from "../../redux/reducers/productsReducer";
 import { connect } from "react-redux";
 
 class PDP extends Component<PDPPropsType> {
@@ -33,6 +36,7 @@ class PDP extends Component<PDPPropsType> {
             <img
               className={styles.mainImg}
               src={this.props.product.gallery[0]}
+              alt={this.props.product.name}
             />
           </div>
           <div className={styles.descrWrapper}>
@@ -58,9 +62,16 @@ class PDP extends Component<PDPPropsType> {
             })}
             <h2 className={styles.attrName}>Price:</h2>
             <div className={styles.price}>
-              {/* {this.props.product.prices.map((p) => {
-                return <div>{p.amount} </div>;
-              })} */}
+              {this.props.product.prices
+                .filter((p) => p.currency === this.props.currentCurrency)
+                .map((c) => {
+                  return (
+                    <div>
+                      {c.currency}
+                      {c.amount}
+                    </div>
+                  );
+                })}
             </div>
 
             <Button
@@ -87,9 +98,13 @@ class PDP extends Component<PDPPropsType> {
     );
   }
 }
-const mapStateToProps = (state: AppStore): PDPQueryResponse => {
+const mapStateToProps = (state: AppStore): ProductsStateType => {
   return {
     product: state.products.product,
+    categories: state.products.categories,
+    products: state.products.products,
+    currencies: state.products.currencies,
+    currentCurrency: state.products.currentCurrency,
   };
 };
 export default connect(mapStateToProps, {
@@ -97,7 +112,7 @@ export default connect(mapStateToProps, {
 })(PDP);
 //Types
 type PDPPropsType = RouteComponentProps<PathParamsType> &
-  PDPQueryResponse &
+  ProductsStateType &
   MapDispatchType;
 type PathParamsType = {
   id: string;

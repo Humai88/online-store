@@ -3,9 +3,11 @@ import ProductItem from "./ProductItem/ProductItem";
 import styles from "./PLP.module.scss";
 import { RouteComponentProps } from "react-router-dom";
 import { v4 } from "uuid";
-import { Category } from "../../grapgQL/PLPResponseType";
 import { AppStore } from "../../redux/store/store";
-import { getProductsByCategoryTC } from "../../redux/reducers/productsReducer";
+import {
+  getProductsByCategoryTC,
+  ProductsStateType,
+} from "../../redux/reducers/productsReducer";
 import { connect } from "react-redux";
 
 class PLP extends Component<PLPPropsType> {
@@ -28,12 +30,13 @@ class PLP extends Component<PLPPropsType> {
             {this.props.products.map((p) => {
               return (
                 <ProductItem
+                  key={v4()}
                   link={`/products/${category}/${p.id}`}
                   inStock={p.inStock}
                   imgSrc={p.gallery[0]}
-                  key={v4()}
                   title={`${p.brand} ${p.name}`}
-                  price={p.prices[0].amount}
+                  prices={p.prices}
+                  currentCurrency={this.props.currentCurrency}
                 />
               );
             })}
@@ -43,9 +46,13 @@ class PLP extends Component<PLPPropsType> {
     );
   }
 }
-const mapStateToProps = (state: AppStore): Category => {
+const mapStateToProps = (state: AppStore): ProductsStateType => {
   return {
+    product: state.products.product,
+    categories: state.products.categories,
     products: state.products.products,
+    currencies: state.products.currencies,
+    currentCurrency: state.products.currentCurrency,
   };
 };
 export default connect(mapStateToProps, {
@@ -54,7 +61,7 @@ export default connect(mapStateToProps, {
 
 //Types;
 type PLPPropsType = RouteComponentProps<PathParamsType> &
-  Category &
+  ProductsStateType &
   MapDispatchType;
 
 type PathParamsType = {

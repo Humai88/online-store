@@ -20,6 +20,7 @@ import {
   GET_CURRENCIES_LIST,
   GET_PRODUCTS_BY_CATEGORY,
   GET_SINGLE_PRODUCT_BY_ID,
+  SET_CURRENT_CURRENCY,
 } from "../actions/types";
 import { ThunkType } from "../store/store";
 
@@ -43,6 +44,7 @@ const initialState: ProductsStateType = {
     brand: "",
   },
   currencies: [],
+  currentCurrency: "USD",
 };
 
 export const productsReducer = (
@@ -58,6 +60,8 @@ export const productsReducer = (
       return { ...state, product: action.payload.product };
     case GET_CURRENCIES_LIST:
       return { ...state, currencies: action.payload.currencies };
+    case SET_CURRENT_CURRENCY:
+      return { ...state, currentCurrency: action.payload.currency };
     default:
       return state;
   }
@@ -124,4 +128,5 @@ export type ProductsStateType = {
   products: Product[];
   product: ProductItem;
   currencies: string[];
+  currentCurrency: string;
 };

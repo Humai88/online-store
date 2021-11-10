@@ -1,9 +1,10 @@
-import { ProductCartItem } from "../../redux/reducers/cartReducer";
+import { ProductCartItem } from "../../redux/reducers/shoppingReducer";
 
 export const fakeData: ProductCartItem[] = [
   {
     id: "123",
     name: "T-Shirt",
+    qty: 2,
     prices: [
       {
         currency: "USD",
@@ -40,6 +41,7 @@ export const fakeData: ProductCartItem[] = [
   {
     id: "123",
     name: "T-Shirt",
+    qty: 0,
     prices: [
       {
         currency: "USD",

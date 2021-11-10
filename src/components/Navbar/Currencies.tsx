@@ -1,37 +1,73 @@
-import React, { Component } from "react";
+import React, { ChangeEvent, Component } from "react";
 import { CurrencyQueryResponse } from "../../grapgQL/CategoriesResponseType";
 import { AppStore } from "../../redux/store/store";
-import {
-  getCurrenciesTC,
-  ProductsStateType,
-} from "../../redux/reducers/productsReducer";
+import { getCurrenciesTC } from "../../redux/reducers/productsReducer";
 import { connect } from "react-redux";
+import { setCurrentCurrencyAC } from "../../redux/actions/productsActions";
 
-class Currencies extends Component<CurrenciesPropsType> {
+class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
+  constructor(props: CurrenciesPropsType) {
+    super(props);
+    this.state = {
+      currentCurrency: this.props.currencies[0],
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e: ChangeEvent<HTMLSelectElement>) {
+    this.setState({ currentCurrency: e.currentTarget.value });
+  }
   componentDidMount() {
     this.props.getCurrenciesTC();
+    this.props.setCurrentCurrencyAC(this.state.currentCurrency);
+  }
+  componentDidUpdate(
+    prevProps: CurrenciesPropsType,
+    prevState: CurrenciesStateType
+  ) {
+    if (this.state.currentCurrency !== prevState.currentCurrency) {
+      this.props.setCurrentCurrencyAC(this.state.currentCurrency);
+    }
   }
   render() {
     return (
       <>
-        <select>
+        <select value={this.state.currentCurrency} onChange={this.handleChange}>
           {this.props.currencies.map((c) => {
             if (c == "USD") {
-              return <option key={c}>&#36;</option>;
+              return (
+                <option value={c} key={c}>
+                  &#36;
+                </option>
+              );
             }
             if (c == "GBP") {
-              return <option key={c}>&#163;</option>;
+              return (
+                <option value={c} key={c}>
+                  &#163;
+                </option>
+              );
             }
             if (c == "AUD") {
-              return <option key={c}>A&#36;</option>;
+              return (
+                <option value={c} key={c}>
+                  A&#36;
+                </option>
+              );
             }
-
             if (c == "JPY") {
-              return <option key={c}> &#165;</option>;
+              return (
+                <option value={c} key={c}>
+                  &#165;
+                </option>
+              );
             }
 
             if (c == "RUB") {
-              return <option key={c}> &#8381;</option>;
+              return (
+                <option value={c} key={c}>
+                  &#8381;
+                </option>
+              );
             }
           })}
         </select>
@@ -45,11 +81,16 @@ const mapStateToProps = (state: AppStore): CurrencyQueryResponse => {
     currencies: state.products.currencies,
   };
 };
+type CurrenciesStateType = {
+  currentCurrency: string;
+};
 export default connect(mapStateToProps, {
   getCurrenciesTC,
+  setCurrentCurrencyAC,
 })(Currencies);
 // Types
 type MapDispatchType = {
   getCurrenciesTC: () => void;
+  setCurrentCurrencyAC: (currency: string) => void;
 };
 type CurrenciesPropsType = CurrencyQueryResponse & MapDispatchType;

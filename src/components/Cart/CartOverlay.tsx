@@ -20,6 +20,7 @@ class CartOverlay extends Component<CartOverlayPropsType> {
           {fakeData.map((p) => {
             return (
               <CartItem
+                qty={p.qty}
                 key={v4()}
                 brand={p.brand}
                 name={p.name}
