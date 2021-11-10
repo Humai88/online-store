@@ -3,9 +3,13 @@ import styles from "./SquareBtn.module.scss";
 
 export class SquareBtn extends Component<DefaultDivPropsType> {
   render() {
-    const { children, className } = this.props;
+    const { children, className, onClick } = this.props;
     const finalClasses = `${styles.squareBtn} ${className ? className : ""}`;
-    return <div className={finalClasses}>{children}</div>;
+    return (
+      <div onClick={onClick} className={finalClasses}>
+        {children}
+      </div>
+    );
   }
 }
 

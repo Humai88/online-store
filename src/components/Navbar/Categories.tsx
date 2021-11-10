@@ -1,42 +1,50 @@
 import React, { Component } from "react";
-import { QueryResult } from "@apollo/client";
-import { Query } from "@apollo/client/react/components";
 import styles from "./Navbar.module.scss";
-import { GET_CATEGORIES } from "../../grapgQL/queries";
 import { NavLink } from "react-router-dom";
-import { Spinner } from "../../UI-kit/Spinner";
-export class Categories extends Component {
+import { connect } from "react-redux";
+import {
+  getCategoriesTC,
+  getProductsByCategoryTC,
+} from "../../redux/reducers/productsReducer";
+import { CategoriesQueryResponse } from "../../grapgQL/CategoriesResponseType";
+import { AppStore } from "../../redux/store/store";
+
+class Categories extends Component<CategoriesPropsType> {
+  componentDidMount() {
+    this.props.getCategoriesTC();
+  }
   render() {
     return (
-      <Query query={GET_CATEGORIES}>
-        {(result: QueryResult<CategoriesQueryResponse>) => {
-          const { loading, error, data } = result;
-          if (loading) return <Spinner />;
-          if (error) console.log(error);
+      <ul>
+        {this.props.categories.map((c) => {
           return (
-            <ul>
-              {data?.categories.map((c) => {
-                return (
-                  <li key={c.name}>
-                    <NavLink activeClassName={styles.active} to={`/${c.name}`}>
-                      {c.name}
-                      <div className={styles.underline}></div>
-                    </NavLink>
-                  </li>
-                );
-              })}
-            </ul>
+            <li key={c.name}>
+              <NavLink
+                activeClassName={styles.active}
+                to={`/products/${c.name}`}
+              >
+                {c.name}
+                <div className={styles.underline}></div>
+              </NavLink>
+            </li>
           );
-        }}
-      </Query>
+        })}
+      </ul>
     );
   }
 }
+const mapStateToProps = (state: AppStore): CategoriesQueryResponse => {
+  return {
+    categories: state.products.categories,
+  };
+};
+export default connect(mapStateToProps, {
+  getCategoriesTC,
+  getProductsByCategoryTC,
+})(Categories);
 
 // Types
-interface CategoriesQueryResponse {
-  categories: Category[];
-}
-interface Category {
-  name: string;
-}
+type MapDispatchType = {
+  getCategoriesTC: () => void;
+};
+type CategoriesPropsType = CategoriesQueryResponse & MapDispatchType;

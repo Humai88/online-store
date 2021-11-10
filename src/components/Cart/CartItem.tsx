@@ -1,16 +1,61 @@
-import React, { Component } from "react";
+import React, { Component, DetailedHTMLProps, HTMLAttributes } from "react";
+import { AttributeSet, Price } from "../../redux/reducers/cartReducer";
+import { SquareBtn } from "../../UI-kit/SquareBtn";
 import styles from "./CartItem.module.scss";
 
-export class CartItem extends Component {
+export class CartItem extends Component<CartItemProps & DefaultDivPropsType> {
   render() {
+    const { prices, brand, name, attributes, gallery } = this.props;
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.productInfo}></div>
-        <div className={styles.productCount}>
-          <div className={styles.count}></div>
-          <img className={styles.img} src="" alt="" />
+      <>
+        <div className={styles.wrapper}>
+          <div className={styles.productInfo}>
+            <h2 className={styles.brand}>{brand}</h2>
+            <h3 className={styles.name}>{name}</h3>
+            <div className={styles.price}>
+              {prices[0].currency}
+              {prices[0].amount}
+            </div>
+            <div className={styles.btnsWrapper}>
+              {attributes.map((a) => {
+                return a.items.map((i) => {
+                  return (
+                    <SquareBtn className={styles.btn}>
+                      {i.displayValue}
+                    </SquareBtn>
+                  );
+                });
+              })}
+            </div>
+          </div>
+          <div className={styles.productCount}>
+            <div className={styles.count}>
+              <SquareBtn>+</SquareBtn>
+              <div className={styles.totalItems}>0</div>
+              <SquareBtn>-</SquareBtn>
+              {/* <SquareBtn onClick={this.props.incrValue}>+</SquareBtn>
+              <div className={styles.totalItems}>0</div>
+              <SquareBtn onClick={this.props.decrValue}>-</SquareBtn> */}
+            </div>
+            <img className={styles.img} src={gallery[0]} alt="" />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
+
+// Types
+interface CartItemProps {
+  prices: Price[];
+  brand: string;
+  name: string;
+  attributes: AttributeSet[];
+  gallery: string[];
+  // incrValue: () => void;
+  // decrValue: () => void;
+}
+type DefaultDivPropsType = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
+  HTMLInputElement
+>;

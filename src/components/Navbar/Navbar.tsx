@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import styles from "./Navbar.module.scss";
 import { BsCart2 } from "react-icons/bs";
 import logo from "./../../assests/2021-11-06 21_23_46-Junior Frontend Test Designs (Public) – Figma.jpg";
-import { Categories } from "./Categories";
+import Categories from "./Categories";
 import CartOverlay from "../Cart/CartOverlay";
-import { Currencies } from "./Currencies";
+import Currencies from "./Currencies";
 
 export class Navbar extends Component<NavbarPropsType, NavbarStateType> {
   constructor(props: NavbarPropsType) {

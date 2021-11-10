@@ -1,73 +1,66 @@
-import { QueryResult } from "@apollo/client";
-import { GET_PRODUCTS_BY_CATEGORY_TITLE } from "../../grapgQL/queries";
 import React, { Component } from "react";
-import { Query } from "@apollo/client/react/components";
 import ProductItem from "./ProductItem/ProductItem";
 import styles from "./PLP.module.scss";
-import { Spinner } from "../../UI-kit/Spinner";
-import { RouteComponentProps, useParams } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
+import { v4 } from "uuid";
+import { Category } from "../../grapgQL/PLPResponseType";
+import { AppStore } from "../../redux/store/store";
+import { getProductsByCategoryTC } from "../../redux/reducers/productsReducer";
+import { connect } from "react-redux";
 
-export class PLP extends Component<PLPPropsType> {
+class PLP extends Component<PLPPropsType> {
+  componentDidMount() {
+    const category = this.props.match.params.category;
+    this.props.getProductsByCategoryTC(category);
+  }
+  componentDidUpdate(prevProps: PLPPropsType) {
+    const category = this.props.match.params.category;
+    if (category !== prevProps.match.params.category) {
+      this.props.getProductsByCategoryTC(category);
+    }
+  }
   render() {
     const category = this.props.match.params.category;
     return (
       <>
-        <h2 className={styles.header}>{category}</h2>
         <div className={styles.wrapper}>
-          <Query
-            query={GET_PRODUCTS_BY_CATEGORY_TITLE}
-            variables={{ category }}
-          >
-            {(result: QueryResult<PLPQueryResponse>) => {
-              const { loading, error, data } = result;
-              if (loading) return <Spinner />;
-              if (error) console.log(error);
+          <>
+            {this.props.products.map((p) => {
               return (
-                <>
-                  {data?.category.products.map((p) => {
-                    return (
-                      <ProductItem
-                        link={`/${category}/${p.id}`}
-                        inStock={p.inStock}
-                        imgSrc={p.gallery[0]}
-                        key={p.id}
-                        title={`${p.brand} ${p.name}`}
-                        price={p.prices[0].amount}
-                      />
-                    );
-                  })}
-                </>
+                <ProductItem
+                  link={`/products/${category}/${p.id}`}
+                  inStock={p.inStock}
+                  imgSrc={p.gallery[0]}
+                  key={v4()}
+                  title={`${p.brand} ${p.name}`}
+                  price={p.prices[0].amount}
+                />
               );
-            }}
-          </Query>
+            })}
+          </>
         </div>
       </>
     );
   }
 }
+const mapStateToProps = (state: AppStore): Category => {
+  return {
+    products: state.products.products,
+  };
+};
+export default connect(mapStateToProps, {
+  getProductsByCategoryTC,
+})(PLP);
 
 //Types;
-type PLPPropsType = RouteComponentProps<PathParamsType>;
+type PLPPropsType = RouteComponentProps<PathParamsType> &
+  Category &
+  MapDispatchType;
+
 type PathParamsType = {
   category: string;
 };
-interface PLPQueryResponse {
-  category: Category;
-}
-interface Category {
-  products: Product[];
-}
 
-interface Product {
-  id: string;
-  name: string;
-  inStock: boolean;
-  gallery: string[];
-  prices: Price[];
-  brand: string;
-}
-
-interface Price {
-  currency: string;
-  amount: number;
-}
+type MapDispatchType = {
+  getProductsByCategoryTC: (category: string) => void;
+};

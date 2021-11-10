@@ -1,5 +1,7 @@
-export const setCardsAC = (cards: []) => {
-  return { type: "SET_CARDS", payload: { cards } } as const;
-};
+import { ProductItem } from "../../grapgQL/PDPResponseType";
+import { ADD_PRODUCT } from "./types";
 
-export type CartActionTypes = ReturnType<typeof setCardsAC>;
+export const addProductToCartAC = (product: ProductItem) => {
+  return { type: ADD_PRODUCT, payload: { product } } as const;
+};
+export type CartActionTypes = ReturnType<typeof addProductToCartAC>;
