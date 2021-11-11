@@ -7,8 +7,9 @@ import { AppStore } from "../../redux/store/store";
 import {
   getProductsByCategoryTC,
   ProductsStateType,
-} from "../../redux/reducers/productsReducer";
+} from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
+import { Product } from "../../grapgQL/ProductResponseType";
 
 class PLP extends Component<PLPPropsType> {
   componentDidMount() {
@@ -46,14 +47,10 @@ class PLP extends Component<PLPPropsType> {
     );
   }
 }
-const mapStateToProps = (state: AppStore): ProductsStateType => {
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
-    product: state.products.product,
-    categories: state.products.categories,
     products: state.products.products,
-    currencies: state.products.currencies,
     currentCurrency: state.products.currentCurrency,
-    cart: state.products.cart,
   };
 };
 export default connect(mapStateToProps, {
@@ -62,7 +59,7 @@ export default connect(mapStateToProps, {
 
 //Types;
 type PLPPropsType = RouteComponentProps<PathParamsType> &
-  ProductsStateType &
+  MapStateToPropsType &
   MapDispatchType;
 
 type PathParamsType = {
@@ -71,4 +68,8 @@ type PathParamsType = {
 
 type MapDispatchType = {
   getProductsByCategoryTC: (category: string) => void;
+};
+type MapStateToPropsType = {
+  products: Product[];
+  currentCurrency: string;
 };

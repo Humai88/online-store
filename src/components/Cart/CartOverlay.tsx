@@ -1,13 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { v4 } from "uuid";
+import { removeProductFromCartAC } from "../../redux/actions/shopActions";
+import { CartItemType } from "../../redux/reducers/shopReducer";
+import { AppStore } from "../../redux/store/store";
 import { Button } from "../../UI-kit/Button";
 import { Modal } from "../../UI-kit/Modal";
-import { CartItem } from "./CartItem";
+import CartItem from "./CartItem";
 import styles from "./CartOverlay.module.scss";
-import { fakeData } from "./fakeData";
-
-class CartOverlay extends Component<CartOverlayPropsType> {
+class CartOverlay extends Component<
+  CartOverlayPropsType & MapStateToPropsType
+> {
   render() {
     const initialState = [{}];
     const { toggleShowCart } = this.props;
@@ -17,9 +21,10 @@ class CartOverlay extends Component<CartOverlayPropsType> {
           <div className={styles.cartItems}>
             My bag, {initialState.length} items
           </div>
-          {fakeData.map((p) => {
+          {this.props.cart.map((p) => {
             return (
               <CartItem
+                id={p.id}
                 qty={p.qty}
                 key={v4()}
                 brand={p.brand}
@@ -45,9 +50,22 @@ class CartOverlay extends Component<CartOverlayPropsType> {
   }
 }
 
-export default withRouter(CartOverlay);
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
+  return {
+    cart: state.products.cart,
+  };
+};
+export default withRouter(
+  connect(mapStateToProps, { removeProductFromCartAC })(CartOverlay)
+);
 
+type MapDispatchType = {
+  removeProductFromCartAC: (productId: string) => void;
+};
 //Types
 interface CartOverlayPropsType extends RouteComponentProps {
   toggleShowCart: () => void;
 }
+type MapStateToPropsType = {
+  cart: CartItemType[];
+};

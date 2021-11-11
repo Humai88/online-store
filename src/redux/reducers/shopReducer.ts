@@ -13,17 +13,8 @@ import {
   getProductsByCategoryAC,
   getProductByIdAC,
   getCurrenciesAC,
-} from "../actions/productsActions";
-import {
-  ADD_TO_CART,
-  ADJUST_QUANTITY,
-  GET_CATEGORIES_LIST,
-  GET_CURRENCIES_LIST,
-  GET_PRODUCTS_BY_CATEGORY,
-  GET_SINGLE_PRODUCT_BY_ID,
-  REMOVE_FROM_CART,
-  SET_CURRENT_CURRENCY,
-} from "../actions/types";
+} from "../actions/shopActions";
+import * as types from "../actions/types";
 import { ThunkType } from "../store/store";
 
 const client = new ApolloClient({
@@ -48,24 +39,25 @@ const initialState: ProductsStateType = {
   cart: [],
   currencies: [],
   currentCurrency: "USD",
+  totalAmount: 0,
 };
 
-export const productsReducer = (
+export const shopReducer = (
   state = initialState,
   action: ProductsActionTypes
 ): ProductsStateType => {
   switch (action.type) {
-    case GET_CATEGORIES_LIST:
+    case types.GET_CATEGORIES_LIST:
       return { ...state, categories: action.payload.categories };
-    case GET_PRODUCTS_BY_CATEGORY:
+    case types.GET_PRODUCTS_BY_CATEGORY:
       return { ...state, products: action.payload.products };
-    case GET_SINGLE_PRODUCT_BY_ID:
+    case types.GET_SINGLE_PRODUCT_BY_ID:
       return { ...state, product: action.payload.product };
-    case GET_CURRENCIES_LIST:
+    case types.GET_CURRENCIES_LIST:
       return { ...state, currencies: action.payload.currencies };
-    case SET_CURRENT_CURRENCY:
+    case types.SET_CURRENT_CURRENCY:
       return { ...state, currentCurrency: action.payload.currency };
-    case ADD_TO_CART:
+    case types.ADD_TO_CART:
       const item = state.products.find(
         (prod) => prod.id === action.payload.productId
       );
@@ -95,20 +87,33 @@ export const productsReducer = (
               : [...state.cart, { ...item, qty: 1 }],
           }
         : state;
-    // case REMOVE_FROM_CART:
-    //   return {
-    //     ...state,
-    //     cart: state.cart.filter((item) => item.id !== action.payload.productId),
-    //   };
-    // case ADJUST_QUANTITY:
-    //   return {
-    //     ...state,
-    //     cart: state.cart.map((item) =>
-    //       item.id === action.payload.productId
-    //         ? { ...item, qty: action.payload.value }
-    //         : item
-    //     ),
-    //   };
+    case types.REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload.productId),
+      };
+    case types.ADJUST_QUANTITY:
+      return {
+        ...state,
+        cart: state.cart.map((p) =>
+          p.id === action.payload.productId
+            ? {
+                ...p,
+                gallery: p.gallery.map((img) => img),
+                prices: p.prices.map((p) => ({ ...p })),
+                attributes: p.attributes.map((attr) => {
+                  return {
+                    ...attr,
+                    items: attr.items.map((i) => ({ ...i })),
+                  };
+                }),
+                qty: action.payload.value,
+              }
+            : p
+        ),
+      };
+    case types.TOTAL_ITEMS_COUNT:
+      return { ...state };
     default:
       return state;
   }
@@ -176,8 +181,9 @@ export type ProductsStateType = {
   product: Product;
   currencies: string[];
   currentCurrency: string;
-  cart: CartItem[];
+  cart: CartItemType[];
+  totalAmount: number;
 };
-export interface CartItem extends Product {
+export interface CartItemType extends Product {
   qty: number;
 }

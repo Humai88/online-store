@@ -1,7 +1,10 @@
-import { ProductCartItem } from "../../redux/reducers/shoppingReducer";
+import { CartItemType } from "../../redux/reducers/shopReducer";
 
-export const fakeData: ProductCartItem[] = [
+export const fakeData: CartItemType[] = [
   {
+    inStock: true,
+    category: "tech",
+    description: "",
     id: "123",
     name: "T-Shirt",
     qty: 2,
@@ -21,6 +24,8 @@ export const fakeData: ProductCartItem[] = [
     brand: "Adidas",
     attributes: [
       {
+        name: "",
+        type: "",
         items: [
           {
             displayValue: "40",
@@ -39,6 +44,9 @@ export const fakeData: ProductCartItem[] = [
     ],
   },
   {
+    inStock: true,
+    category: "tech",
+    description: "",
     id: "123",
     name: "T-Shirt",
     qty: 0,
@@ -58,6 +66,8 @@ export const fakeData: ProductCartItem[] = [
     brand: "Adidas",
     attributes: [
       {
+        name: "",
+        type: "",
         items: [
           {
             displayValue: "40",

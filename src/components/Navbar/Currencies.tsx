@@ -1,9 +1,9 @@
 import React, { ChangeEvent, Component } from "react";
 import { CurrencyQueryResponse } from "../../grapgQL/CategoriesResponseType";
 import { AppStore } from "../../redux/store/store";
-import { getCurrenciesTC } from "../../redux/reducers/productsReducer";
+import { getCurrenciesTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
-import { setCurrentCurrencyAC } from "../../redux/actions/productsActions";
+import { setCurrentCurrencyAC } from "../../redux/actions/shopActions";
 
 class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   constructor(props: CurrenciesPropsType) {
@@ -13,12 +13,16 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+
   handleChange(e: ChangeEvent<HTMLSelectElement>) {
     this.setState({ currentCurrency: e.currentTarget.value });
+    localStorage.setItem("currency", e.currentTarget.value);
   }
   componentDidMount() {
     this.props.getCurrenciesTC();
     this.props.setCurrentCurrencyAC(this.state.currentCurrency);
+    const storedCurrency = localStorage.getItem("currency");
+    this.setState({ currentCurrency: storedCurrency ? storedCurrency : "USD" });
   }
   componentDidUpdate(
     prevProps: CurrenciesPropsType,

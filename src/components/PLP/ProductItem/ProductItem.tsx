@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { Price } from "../../../redux/reducers/shoppingReducer";
+import { v4 } from "uuid";
+import { Price } from "../../../grapgQL/ProductResponseType";
 import styles from "./ProductItem.module.scss";
 
 export default class ProductItem extends Component<ProductItemPropsType> {
@@ -20,7 +21,7 @@ export default class ProductItem extends Component<ProductItemPropsType> {
               .filter((p) => p.currency === currentCurrency)
               .map((c) => {
                 return (
-                  <div>
+                  <div key={v4()}>
                     {c.currency}
                     {c.amount}
                   </div>

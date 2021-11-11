@@ -1,11 +1,11 @@
-// Product action types
+// Shop action types
 export const GET_PRODUCTS_BY_CATEGORY = "GET_PRODUCTS_BY_CATEGORY";
 export const GET_CATEGORIES_LIST = "GET_CATEGORIES_LIST";
 export const GET_SINGLE_PRODUCT_BY_ID = "GET_SINGLE_PRODUCT_BY_ID";
 export const GET_CURRENCIES_LIST = "GET_CURRENCIES_LIST";
 export const SET_CURRENT_CURRENCY = "SET_CURRENT_CURRENCY";
-// Shopping action types
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const ADJUST_QUANTITY = "ADJUST_QUANTITY";
 export const LOAD_CURRENT_ITEM = "LOAD_CURRENT_ITEM";
+export const TOTAL_ITEMS_COUNT = "TOTAL_ITEMS_COUNT";

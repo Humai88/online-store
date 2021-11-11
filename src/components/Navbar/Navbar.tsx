@@ -5,12 +5,27 @@ import logo from "./../../assests/2021-11-06 21_23_46-Junior Frontend Test Desig
 import Categories from "./Categories";
 import CartOverlay from "../Cart/CartOverlay";
 import Currencies from "./Currencies";
+import { connect } from "react-redux";
+import { AppStore } from "../../redux/store/store";
+import { CartItemType } from "../../redux/reducers/shopReducer";
 
-export class Navbar extends Component<NavbarPropsType, NavbarStateType> {
+class Navbar extends Component<NavbarPropsType, NavbarStateType> {
   constructor(props: NavbarPropsType) {
     super(props);
-    this.state = { showCart: false };
+    this.state = { showCart: false, cartCount: 0 };
     this.toggleShowCart = this.toggleShowCart.bind(this);
+  }
+  componentDidUpdate(prevProps: NavbarPropsType, prevState: NavbarStateType) {
+    let count = 0;
+    this.props.cart.forEach((p) => (count += p.qty));
+    if (
+      this.state.cartCount !== prevState.cartCount ||
+      this.props.cart !== prevProps.cart
+    ) {
+      this.setState({
+        cartCount: count,
+      });
+    }
   }
   toggleShowCart() {
     this.setState((prevState) => ({
@@ -39,6 +54,7 @@ export class Navbar extends Component<NavbarPropsType, NavbarStateType> {
                   cursor: "pointer",
                 }}
               />
+              <div className={styles.itemsCount}>{this.state.cartCount}</div>
             </div>
           </div>
         </div>
@@ -46,9 +62,18 @@ export class Navbar extends Component<NavbarPropsType, NavbarStateType> {
     );
   }
 }
-
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
+  return {
+    cart: state.products.cart,
+  };
+};
+export default connect(mapStateToProps, {})(Navbar);
 // Types
-type NavbarPropsType = {};
+type NavbarPropsType = MapStateToPropsType;
 type NavbarStateType = {
   showCart: boolean;
+  cartCount: number;
+};
+type MapStateToPropsType = {
+  cart: CartItemType[];
 };

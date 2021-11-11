@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {
   getCategoriesTC,
   getProductsByCategoryTC,
-} from "../../redux/reducers/productsReducer";
+} from "../../redux/reducers/shopReducer";
 import { CategoriesQueryResponse } from "../../grapgQL/CategoriesResponseType";
 import { AppStore } from "../../redux/store/store";
 

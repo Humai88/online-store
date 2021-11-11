@@ -5,12 +5,10 @@ import { RouteComponentProps } from "react-router-dom";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
 import { v4 } from "uuid";
 import { AppStore } from "../../redux/store/store";
-import {
-  getProductByIdTC,
-  ProductsStateType,
-} from "../../redux/reducers/productsReducer";
+import { getProductByIdTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
-import { addProductToCartAC } from "../../redux/actions/productsActions";
+import { addProductToCartAC } from "../../redux/actions/shopActions";
+import { Product } from "../../grapgQL/ProductResponseType";
 
 class PDP extends Component<PDPPropsType> {
   constructor(props: PDPPropsType) {
@@ -18,6 +16,7 @@ class PDP extends Component<PDPPropsType> {
     this.state = {};
     this.addToCartHandler = this.addToCartHandler.bind(this);
   }
+
   addToCartHandler() {
     const id = this.props.match.params.id;
     this.props.addProductToCartAC(id);
@@ -75,7 +74,7 @@ class PDP extends Component<PDPPropsType> {
                 .filter((p) => p.currency === this.props.currentCurrency)
                 .map((c) => {
                   return (
-                    <div>
+                    <div key={v4()}>
                       {c.currency}
                       {c.amount}
                     </div>
@@ -108,14 +107,10 @@ class PDP extends Component<PDPPropsType> {
     );
   }
 }
-const mapStateToProps = (state: AppStore): ProductsStateType => {
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     product: state.products.product,
-    categories: state.products.categories,
-    products: state.products.products,
-    currencies: state.products.currencies,
     currentCurrency: state.products.currentCurrency,
-    cart: state.products.cart,
   };
 };
 export default connect(mapStateToProps, {
@@ -124,7 +119,7 @@ export default connect(mapStateToProps, {
 })(PDP);
 //Types
 type PDPPropsType = RouteComponentProps<PathParamsType> &
-  ProductsStateType &
+  MapStateToPropsType &
   MapDispatchType;
 type PathParamsType = {
   id: string;
@@ -134,3 +129,10 @@ type MapDispatchType = {
   addProductToCartAC: (productId: string) => void;
   getProductByIdTC: (id: string) => void;
 };
+type MapStateToPropsType = {
+  product: Product;
+  currentCurrency: string;
+};
+function setValue(state: string) {
+  throw new Error("Function not implemented.");
+}
