@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Category } from "../../grapgQL/CategoriesResponseType";
-import { ProductItem } from "../../grapgQL/PDPResponseType";
+import { CartItem, ProductItem } from "../../grapgQL/PDPResponseType";
 import { Product } from "../../grapgQL/PLPResponseType";
 import {
   GET_CATEGORIES,
@@ -16,6 +16,7 @@ import {
   getCurrenciesAC,
 } from "../actions/productsActions";
 import {
+  ADD_TO_CART,
   GET_CATEGORIES_LIST,
   GET_CURRENCIES_LIST,
   GET_PRODUCTS_BY_CATEGORY,
@@ -43,6 +44,7 @@ const initialState: ProductsStateType = {
     attributes: [],
     brand: "",
   },
+  cart: [],
   currencies: [],
   currentCurrency: "USD",
 };
@@ -62,6 +64,34 @@ export const productsReducer = (
       return { ...state, currencies: action.payload.currencies };
     case SET_CURRENT_CURRENCY:
       return { ...state, currentCurrency: action.payload.currency };
+    case ADD_TO_CART:
+      const item = state.products.find(
+        (prod) => prod.id === action.payload.productId
+      );
+      const inCart = state.cart.find((prod) =>
+        prod.id === action.payload.productId ? true : false
+      );
+      return {
+        ...state,
+        cart: inCart
+          ? state.cart.map((p) =>
+              p.id === action.payload.productId
+                ? {
+                    ...p,
+                    gallery: p.gallery.map((img) => img),
+                    prices: p.prices.map((p) => ({ ...p })),
+                    attributes: p.attributes.map((attr) => {
+                      return {
+                        ...attr,
+                        items: attr.items.map((i) => ({ ...i })),
+                      };
+                    }),
+                    qty: p.qty + 1,
+                  }
+                : p
+            )
+          : [...state.cart, { ...item, qty: 1 }],
+      };
     default:
       return state;
   }
@@ -129,4 +159,5 @@ export type ProductsStateType = {
   product: ProductItem;
   currencies: string[];
   currentCurrency: string;
+  cart: CartItem[];
 };

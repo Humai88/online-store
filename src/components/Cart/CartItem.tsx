@@ -16,6 +16,7 @@ export class CartItem extends Component<CartItemProps & DefaultDivPropsType> {
               {prices[0].currency}
               {prices[0].amount}
             </div>
+
             <div className={styles.btnsWrapper}>
               {attributes.map((a) => {
                 return a.items.map((i) => {

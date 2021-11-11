@@ -105,6 +105,7 @@ const mapStateToProps = (state: AppStore): ProductsStateType => {
     products: state.products.products,
     currencies: state.products.currencies,
     currentCurrency: state.products.currentCurrency,
+    cart: state.products.cart,
   };
 };
 export default connect(mapStateToProps, {

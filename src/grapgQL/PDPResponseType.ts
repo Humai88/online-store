@@ -1,21 +1,14 @@
+import { Product } from "./PLPResponseType";
+
 export interface PDPQueryResponse {
   product: ProductItem;
 }
-export interface ProductItem {
-  id: string;
-  name: string;
-  inStock: boolean;
-  prices: Price[];
-  gallery: string[];
+export interface ProductItem extends Product {
   description: string;
   category: string;
-  attributes: AttributeSet[];
-  brand: string;
 }
-
-interface Price {
-  currency: string;
-  amount: number;
+export interface CartItem extends ProductItem {
+  qty: number;
 }
 
 export interface AttributeSet {

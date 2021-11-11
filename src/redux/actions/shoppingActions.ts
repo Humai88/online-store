@@ -1,4 +1,3 @@
-import { ProductItem } from "../../grapgQL/PDPResponseType";
 import { ProductCartItem } from "../reducers/shoppingReducer";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "./types";
 

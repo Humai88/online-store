@@ -17,7 +17,7 @@ export default class ProductItem extends Component<ProductItemPropsType> {
           <div className={styles.title}>{title}</div>
           <div className={styles.price}>
             {prices
-              .filter((p) => p.currency === this.props.currentCurrency)
+              .filter((p) => p.currency === currentCurrency)
               .map((c) => {
                 return (
                   <div>

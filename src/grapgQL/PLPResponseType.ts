@@ -1,3 +1,5 @@
+import { AttributeSet } from "./PDPResponseType";
+
 export interface PLPQueryResponse {
   category: Category;
 }
@@ -12,6 +14,7 @@ export interface Product {
   gallery: string[];
   prices: Price[];
   brand: string;
+  attributes: AttributeSet[];
 }
 
 interface Price {

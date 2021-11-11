@@ -19,6 +19,13 @@ export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
           currency
           amount
         }
+        attributes {
+          type
+          name
+          items {
+            displayValue
+          }
+        }
         inStock
         brand
       }

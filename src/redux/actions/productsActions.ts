@@ -2,6 +2,7 @@ import { Category } from "../../grapgQL/CategoriesResponseType";
 import { ProductItem } from "../../grapgQL/PDPResponseType";
 import { Product } from "../../grapgQL/PLPResponseType";
 import {
+  ADD_TO_CART,
   GET_CATEGORIES_LIST,
   GET_CURRENCIES_LIST,
   GET_PRODUCTS_BY_CATEGORY,
@@ -24,9 +25,13 @@ export const getCurrenciesAC = (currencies: []) => {
 export const setCurrentCurrencyAC = (currency: string) => {
   return { type: SET_CURRENT_CURRENCY, payload: { currency } } as const;
 };
+export const addProductToCartAC = (productId: string) => {
+  return { type: ADD_TO_CART, payload: { productId } } as const;
+};
 export type ProductsActionTypes =
   | ReturnType<typeof getCategoriesAC>
   | ReturnType<typeof getProductsByCategoryAC>
   | ReturnType<typeof getProductByIdAC>
   | ReturnType<typeof getCurrenciesAC>
-  | ReturnType<typeof setCurrentCurrencyAC>;
+  | ReturnType<typeof setCurrentCurrencyAC>
+  | ReturnType<typeof addProductToCartAC>;

@@ -9,7 +9,7 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   constructor(props: CurrenciesPropsType) {
     super(props);
     this.state = {
-      currentCurrency: this.props.currencies[0],
+      currentCurrency: "USD",
     };
     this.handleChange = this.handleChange.bind(this);
   }
