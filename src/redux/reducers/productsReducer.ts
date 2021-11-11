@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Category } from "../../grapgQL/CategoriesResponseType";
 import { Product } from "../../grapgQL/ProductResponseType";
-
 import {
   GET_CATEGORIES,
   GET_CURRENCIES,
@@ -17,10 +16,12 @@ import {
 } from "../actions/productsActions";
 import {
   ADD_TO_CART,
+  ADJUST_QUANTITY,
   GET_CATEGORIES_LIST,
   GET_CURRENCIES_LIST,
   GET_PRODUCTS_BY_CATEGORY,
   GET_SINGLE_PRODUCT_BY_ID,
+  REMOVE_FROM_CART,
   SET_CURRENT_CURRENCY,
 } from "../actions/types";
 import { ThunkType } from "../store/store";
@@ -68,30 +69,46 @@ export const productsReducer = (
       const item = state.products.find(
         (prod) => prod.id === action.payload.productId
       );
-      const inCart = state.cart.find((prod) =>
-        prod.id === action.payload.productId ? true : false
+      const inCart = state.cart.some(
+        (prod) => prod.id === action.payload.productId
       );
-      return {
-        ...state,
-        // cart: inCart
-        //   ? state.cart.map((p) =>
-        //       p.id === action.payload.productId
-        //         ? {
-        //             ...p,
-        //             gallery: p.gallery.map((img) => img),
-        //             prices: p.prices.map((p) => ({ ...p })),
-        //             attributes: p.attributes.map((attr) => {
-        //               return {
-        //                 ...attr,
-        //                 items: attr.items.map((i) => ({ ...i })),
-        //               };
-        //             }),
-        //             qty: p.qty + 1,
-        //           }
-        //         : p
-        //     )
-        //   : [...state.cart, { ...item, qty: 1 }],
-      };
+      return item
+        ? {
+            ...state,
+            cart: inCart
+              ? state.cart.map((p) =>
+                  p.id === action.payload.productId
+                    ? {
+                        ...p,
+                        gallery: p.gallery.map((img) => img),
+                        prices: p.prices.map((p) => ({ ...p })),
+                        attributes: p.attributes.map((attr) => {
+                          return {
+                            ...attr,
+                            items: attr.items.map((i) => ({ ...i })),
+                          };
+                        }),
+                        qty: p.qty + 1,
+                      }
+                    : p
+                )
+              : [...state.cart, { ...item, qty: 1 }],
+          }
+        : state;
+    // case REMOVE_FROM_CART:
+    //   return {
+    //     ...state,
+    //     cart: state.cart.filter((item) => item.id !== action.payload.productId),
+    //   };
+    // case ADJUST_QUANTITY:
+    //   return {
+    //     ...state,
+    //     cart: state.cart.map((item) =>
+    //       item.id === action.payload.productId
+    //         ? { ...item, qty: action.payload.value }
+    //         : item
+    //     ),
+    //   };
     default:
       return state;
   }

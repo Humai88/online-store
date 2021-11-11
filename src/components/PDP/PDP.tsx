@@ -10,8 +10,18 @@ import {
   ProductsStateType,
 } from "../../redux/reducers/productsReducer";
 import { connect } from "react-redux";
+import { addProductToCartAC } from "../../redux/actions/productsActions";
 
 class PDP extends Component<PDPPropsType> {
+  constructor(props: PDPPropsType) {
+    super(props);
+    this.state = {};
+    this.addToCartHandler = this.addToCartHandler.bind(this);
+  }
+  addToCartHandler() {
+    const id = this.props.match.params.id;
+    this.props.addProductToCartAC(id);
+  }
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getProductByIdTC(id);
@@ -76,6 +86,7 @@ class PDP extends Component<PDPPropsType> {
             <Button
               disabled={!this.props.product.inStock}
               className={styles.btn}
+              onClick={this.addToCartHandler}
             >
               add to cart
             </Button>
@@ -109,6 +120,7 @@ const mapStateToProps = (state: AppStore): ProductsStateType => {
 };
 export default connect(mapStateToProps, {
   getProductByIdTC,
+  addProductToCartAC,
 })(PDP);
 //Types
 type PDPPropsType = RouteComponentProps<PathParamsType> &
@@ -119,5 +131,6 @@ type PathParamsType = {
 };
 
 type MapDispatchType = {
+  addProductToCartAC: (productId: string) => void;
   getProductByIdTC: (id: string) => void;
 };

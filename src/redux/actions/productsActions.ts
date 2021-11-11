@@ -3,10 +3,12 @@ import { Product } from "../../grapgQL/ProductResponseType";
 
 import {
   ADD_TO_CART,
+  ADJUST_QUANTITY,
   GET_CATEGORIES_LIST,
   GET_CURRENCIES_LIST,
   GET_PRODUCTS_BY_CATEGORY,
   GET_SINGLE_PRODUCT_BY_ID,
+  REMOVE_FROM_CART,
   SET_CURRENT_CURRENCY,
 } from "./types";
 
@@ -28,10 +30,18 @@ export const setCurrentCurrencyAC = (currency: string) => {
 export const addProductToCartAC = (productId: string) => {
   return { type: ADD_TO_CART, payload: { productId } } as const;
 };
+export const removeProductFromCartAC = (productId: string) => {
+  return { type: REMOVE_FROM_CART, payload: { productId } } as const;
+};
+export const adjustQuantityAC = (productId: string, value: number) => {
+  return { type: ADJUST_QUANTITY, payload: { productId, value } } as const;
+};
 export type ProductsActionTypes =
   | ReturnType<typeof getCategoriesAC>
   | ReturnType<typeof getProductsByCategoryAC>
   | ReturnType<typeof getProductByIdAC>
   | ReturnType<typeof getCurrenciesAC>
   | ReturnType<typeof setCurrentCurrencyAC>
-  | ReturnType<typeof addProductToCartAC>;
+  | ReturnType<typeof addProductToCartAC>
+  | ReturnType<typeof removeProductFromCartAC>
+  | ReturnType<typeof adjustQuantityAC>;
