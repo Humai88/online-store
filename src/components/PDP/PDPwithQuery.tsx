@@ -8,7 +8,7 @@ import { Spinner } from "../../UI-kit/Spinner";
 import { RouteComponentProps } from "react-router-dom";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
 import { v4 } from "uuid";
-import { PDPQueryResponse, ProductItem } from "../../grapgQL/PDPResponseType";
+import { PDPQueryResponse } from "../../grapgQL/ProductResponseType";
 
 export class PDP extends Component<PDPPropsType> {
   render() {

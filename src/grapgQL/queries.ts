@@ -13,7 +13,9 @@ export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
     category(input: { title: $category }) {
       products {
         name
+        description
         id
+        category
         gallery
         prices {
           currency

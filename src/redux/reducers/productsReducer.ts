@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Category } from "../../grapgQL/CategoriesResponseType";
-import { CartItem, ProductItem } from "../../grapgQL/PDPResponseType";
-import { Product } from "../../grapgQL/PLPResponseType";
+import { Product } from "../../grapgQL/ProductResponseType";
+
 import {
   GET_CATEGORIES,
   GET_CURRENCIES,
@@ -73,24 +73,24 @@ export const productsReducer = (
       );
       return {
         ...state,
-        cart: inCart
-          ? state.cart.map((p) =>
-              p.id === action.payload.productId
-                ? {
-                    ...p,
-                    gallery: p.gallery.map((img) => img),
-                    prices: p.prices.map((p) => ({ ...p })),
-                    attributes: p.attributes.map((attr) => {
-                      return {
-                        ...attr,
-                        items: attr.items.map((i) => ({ ...i })),
-                      };
-                    }),
-                    qty: p.qty + 1,
-                  }
-                : p
-            )
-          : [...state.cart, { ...item, qty: 1 }],
+        // cart: inCart
+        //   ? state.cart.map((p) =>
+        //       p.id === action.payload.productId
+        //         ? {
+        //             ...p,
+        //             gallery: p.gallery.map((img) => img),
+        //             prices: p.prices.map((p) => ({ ...p })),
+        //             attributes: p.attributes.map((attr) => {
+        //               return {
+        //                 ...attr,
+        //                 items: attr.items.map((i) => ({ ...i })),
+        //               };
+        //             }),
+        //             qty: p.qty + 1,
+        //           }
+        //         : p
+        //     )
+        //   : [...state.cart, { ...item, qty: 1 }],
       };
     default:
       return state;
@@ -156,8 +156,11 @@ export const getProductByIdTC =
 export type ProductsStateType = {
   categories: Category[];
   products: Product[];
-  product: ProductItem;
+  product: Product;
   currencies: string[];
   currentCurrency: string;
   cart: CartItem[];
 };
+export interface CartItem extends Product {
+  qty: number;
+}

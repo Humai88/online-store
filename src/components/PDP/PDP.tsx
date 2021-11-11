@@ -4,7 +4,6 @@ import { Button } from "../../UI-kit/Button";
 import { RouteComponentProps } from "react-router-dom";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
 import { v4 } from "uuid";
-import { PDPQueryResponse } from "../../grapgQL/PDPResponseType";
 import { AppStore } from "../../redux/store/store";
 import {
   getProductByIdTC,

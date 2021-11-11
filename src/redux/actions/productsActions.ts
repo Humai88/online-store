@@ -1,6 +1,6 @@
 import { Category } from "../../grapgQL/CategoriesResponseType";
-import { ProductItem } from "../../grapgQL/PDPResponseType";
-import { Product } from "../../grapgQL/PLPResponseType";
+import { Product } from "../../grapgQL/ProductResponseType";
+
 import {
   ADD_TO_CART,
   GET_CATEGORIES_LIST,
@@ -16,7 +16,7 @@ export const getCategoriesAC = (categories: Category[]) => {
 export const getProductsByCategoryAC = (products: Product[]) => {
   return { type: GET_PRODUCTS_BY_CATEGORY, payload: { products } } as const;
 };
-export const getProductByIdAC = (product: ProductItem) => {
+export const getProductByIdAC = (product: Product) => {
   return { type: GET_SINGLE_PRODUCT_BY_ID, payload: { product } } as const;
 };
 export const getCurrenciesAC = (currencies: []) => {
