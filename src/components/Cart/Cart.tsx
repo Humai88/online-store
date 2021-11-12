@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { v4 } from "uuid";
 import CartItem from "./CartItem";
 import styles from "./Cart.module.scss";
 import { AppStore } from "../../redux/store/store";
@@ -17,7 +16,7 @@ class Cart extends Component<CartPPropsType> {
             <CartItem
               id={p.id}
               qty={p.qty}
-              key={v4()}
+              key={p.id}
               brand={p.brand}
               name={p.name}
               prices={p.prices}

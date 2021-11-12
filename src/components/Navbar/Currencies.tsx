@@ -4,6 +4,7 @@ import { AppStore } from "../../redux/store/store";
 import { getCurrenciesTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { setCurrentCurrencyAC } from "../../redux/actions/shopActions";
+import { currencyConverter } from "../../helpers/functions";
 
 class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   constructor(props: CurrenciesPropsType) {
@@ -37,42 +38,15 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
       <>
         <select value={this.state.currentCurrency} onChange={this.handleChange}>
           {this.props.currencies.map((c) => {
-            if (c == "USD") {
-              return (
-                <option value={c} key={c}>
-                  &#36;
-                </option>
-              );
-            }
-            if (c == "GBP") {
-              return (
-                <option value={c} key={c}>
-                  &#163;
-                </option>
-              );
-            }
-            if (c == "AUD") {
-              return (
-                <option value={c} key={c}>
-                  A&#36;
-                </option>
-              );
-            }
-            if (c == "JPY") {
-              return (
-                <option value={c} key={c}>
-                  &#165;
-                </option>
-              );
-            }
-
-            if (c == "RUB") {
-              return (
-                <option value={c} key={c}>
-                  &#8381;
-                </option>
-              );
-            }
+            return (
+              <option
+                value={c}
+                key={c}
+                dangerouslySetInnerHTML={{
+                  __html: currencyConverter(c),
+                }}
+              ></option>
+            );
           })}
         </select>
       </>

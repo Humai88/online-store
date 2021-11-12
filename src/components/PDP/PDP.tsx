@@ -9,6 +9,7 @@ import { getProductByIdTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { addProductToCartAC } from "../../redux/actions/shopActions";
 import { Product } from "../../grapgQL/ProductResponseType";
+import { currencyConverter } from "../../helpers/functions";
 
 class PDP extends Component<PDPPropsType> {
   constructor(props: PDPPropsType) {
@@ -37,7 +38,7 @@ class PDP extends Component<PDPPropsType> {
         <div className={styles.wrapper}>
           <div className={styles.imgPreviewWrapper}>
             {this.props.product.gallery.slice(1).map((img) => {
-              return <img key={v4()} className={styles.imgPreview} src={img} />;
+              return <img key={img} className={styles.imgPreview} src={img} />;
             })}
           </div>
           <div className={styles.mainImgWrapper}>
@@ -54,7 +55,7 @@ class PDP extends Component<PDPPropsType> {
             {this.props.product.attributes.map((attr) => {
               return (
                 <div key={v4()}>
-                  <h3>{attr.type}</h3>
+                  {/* <h3>{attr.type}</h3> */}
                   <div className={styles.attrName}>{attr.name}</div>
                   <div className={styles.attrValuesWrapper}>
                     {attr.items.map((item) => {
@@ -75,7 +76,11 @@ class PDP extends Component<PDPPropsType> {
                 .map((c) => {
                   return (
                     <div key={v4()}>
-                      {c.currency}
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: currencyConverter(c.currency),
+                        }}
+                      ></span>
                       {c.amount}
                     </div>
                   );

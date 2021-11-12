@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import ProductItem from "./ProductItem/ProductItem";
 import styles from "./PLP.module.scss";
 import { RouteComponentProps } from "react-router-dom";
-import { v4 } from "uuid";
 import { AppStore } from "../../redux/store/store";
-import {
-  getProductsByCategoryTC,
-  ProductsStateType,
-} from "../../redux/reducers/shopReducer";
+import { getProductsByCategoryTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { Product } from "../../grapgQL/ProductResponseType";
 
@@ -31,7 +27,7 @@ class PLP extends Component<PLPPropsType> {
             {this.props.products.map((p) => {
               return (
                 <ProductItem
-                  key={v4()}
+                  key={p.id}
                   link={`/products/${category}/${p.id}`}
                   inStock={p.inStock}
                   imgSrc={p.gallery[0]}

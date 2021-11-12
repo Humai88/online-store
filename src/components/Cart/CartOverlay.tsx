@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
-import { v4 } from "uuid";
 import {
   setTotalItemsCountAC,
   setTotalPriceAC,
@@ -46,7 +45,7 @@ class CartOverlay extends Component<PropsType> {
               <CartItem
                 id={p.id}
                 qty={p.qty}
-                key={v4()}
+                key={p.id}
                 brand={p.brand}
                 name={p.name}
                 prices={p.prices}
@@ -58,7 +57,7 @@ class CartOverlay extends Component<PropsType> {
           <div className={styles.totalPrice}>
             <div className={styles.total}>Total</div>
             <div className={styles.total}>
-              {currentCurrency}
+              {currentCurrency}&nbsp;
               {totalPrice.toFixed(2)}
             </div>
           </div>
