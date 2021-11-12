@@ -1,6 +1,6 @@
 import { Category } from "../../grapgQL/CategoriesResponseType";
 import { Product } from "../../grapgQL/ProductResponseType";
-
+import { CartItemType } from "../reducers/shopReducer";
 import * as types from "./types";
 
 export const getCategoriesAC = (categories: Category[]) => {
@@ -36,9 +36,22 @@ export const adjustQuantityAC = (productId: string, value: number) => {
     payload: { productId, value },
   } as const;
 };
-export const setTotalItemsCountAC = () => {
-  return { type: types.TOTAL_ITEMS_COUNT } as const;
+export const setTotalItemsCountAC = (productsInCart: CartItemType[]) => {
+  return {
+    type: types.TOTAL_ITEMS_COUNT,
+    payload: { productsInCart },
+  } as const;
 };
+export const setTotalPriceAC = (
+  productsInCart: CartItemType[],
+  currentCurrency: string
+) => {
+  return {
+    type: types.TOTAL_PRICE,
+    payload: { productsInCart, currentCurrency },
+  } as const;
+};
+
 export type ProductsActionTypes =
   | ReturnType<typeof getCategoriesAC>
   | ReturnType<typeof getProductsByCategoryAC>
@@ -48,4 +61,5 @@ export type ProductsActionTypes =
   | ReturnType<typeof addProductToCartAC>
   | ReturnType<typeof removeProductFromCartAC>
   | ReturnType<typeof adjustQuantityAC>
-  | ReturnType<typeof setTotalItemsCountAC>;
+  | ReturnType<typeof setTotalItemsCountAC>
+  | ReturnType<typeof setTotalPriceAC>;

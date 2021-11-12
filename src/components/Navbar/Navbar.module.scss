@@ -64,10 +64,18 @@
     right: 91px;
     width: 1.2rem;
     height: 1.2rem;
-    background-color: black;
+    padding: 2px;
+    font-weight: 600;
     color: #fff;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    font-size: 1rem;
+    font-size: 0.7rem;
+  }
+  .cartIcon {
+    font-size: 1.4rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
   }
 }

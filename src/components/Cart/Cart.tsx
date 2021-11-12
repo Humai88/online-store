@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import { v4 } from "uuid";
 import CartItem from "./CartItem";
 import styles from "./Cart.module.scss";
-import { fakeData } from "./fakeData";
 import { AppStore } from "../../redux/store/store";
 import { CartItemType } from "../../redux/reducers/shopReducer";
 import { removeProductFromCartAC } from "../../redux/actions/shopActions";
 import { connect } from "react-redux";
 class Cart extends Component<CartPPropsType> {
   render() {
+    const { cart } = this.props;
     return (
       <div className={styles.wrapper}>
         <h2 className={styles.header}>Cart</h2>
-        {this.props.cart.map((p) => {
+        {cart.map((p) => {
           return (
             <CartItem
               id={p.id}

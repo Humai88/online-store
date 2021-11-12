@@ -8,25 +8,25 @@ import Currencies from "./Currencies";
 import { connect } from "react-redux";
 import { AppStore } from "../../redux/store/store";
 import { CartItemType } from "../../redux/reducers/shopReducer";
+import { setTotalItemsCountAC } from "../../redux/actions/shopActions";
 
 class Navbar extends Component<NavbarPropsType, NavbarStateType> {
   constructor(props: NavbarPropsType) {
     super(props);
-    this.state = { showCart: false, cartCount: 0 };
+    this.state = { showCart: false };
     this.toggleShowCart = this.toggleShowCart.bind(this);
   }
-  componentDidUpdate(prevProps: NavbarPropsType, prevState: NavbarStateType) {
-    let count = 0;
-    this.props.cart.forEach((p) => (count += p.qty));
-    if (
-      this.state.cartCount !== prevState.cartCount ||
-      this.props.cart !== prevProps.cart
-    ) {
-      this.setState({
-        cartCount: count,
-      });
+  componentDidMount() {
+    const productsInCart = this.props.cart;
+    this.props.setTotalItemsCountAC(productsInCart);
+  }
+  componentDidUpdate(prevProps: NavbarPropsType) {
+    const productsInCart = this.props.cart;
+    if (productsInCart !== prevProps.cart) {
+      this.props.setTotalItemsCountAC(productsInCart);
     }
   }
+
   toggleShowCart() {
     this.setState((prevState) => ({
       showCart: !prevState.showCart,
@@ -47,14 +47,28 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
             <Currencies />
             <div>
               <BsCart2
+                className={styles.cartIcon}
                 onClick={this.toggleShowCart}
-                style={{
-                  fontSize: "1.4rem",
-                  marginLeft: "0.5rem",
-                  cursor: "pointer",
-                }}
+                style={
+                  this.props.totalCount > 0
+                    ? {
+                        color: "#2f7c43",
+                      }
+                    : { color: "black" }
+                }
               />
-              <div className={styles.itemsCount}>{this.state.cartCount}</div>
+              <div
+                style={
+                  this.props.totalCount > 0
+                    ? {
+                        background: "#2f7c43",
+                      }
+                    : { background: "black" }
+                }
+                className={styles.itemsCount}
+              >
+                {this.props.totalCount}
+              </div>
             </div>
           </div>
         </div>
@@ -65,15 +79,19 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
 const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     cart: state.products.cart,
+    totalCount: state.products.totalCount,
   };
 };
-export default connect(mapStateToProps, {})(Navbar);
+export default connect(mapStateToProps, { setTotalItemsCountAC })(Navbar);
 // Types
-type NavbarPropsType = MapStateToPropsType;
+type NavbarPropsType = MapStateToPropsType & MapDispatchType;
 type NavbarStateType = {
   showCart: boolean;
-  cartCount: number;
 };
 type MapStateToPropsType = {
   cart: CartItemType[];
+  totalCount: number;
+};
+type MapDispatchType = {
+  setTotalItemsCountAC: (productsInCart: CartItemType[]) => void;
 };

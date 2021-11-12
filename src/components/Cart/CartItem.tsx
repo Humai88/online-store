@@ -6,20 +6,42 @@ import { AppStore } from "../../redux/store/store";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
 import styles from "./CartItem.module.scss";
 import { IoTrashBinOutline } from "react-icons/io5";
-import { removeProductFromCartAC } from "../../redux/actions/shopActions";
-import { StringLiteral } from "typescript";
+import {
+  adjustQuantityAC,
+  removeProductFromCartAC,
+} from "../../redux/actions/shopActions";
 
 class CartItem extends Component<CartItemProps> {
   constructor(props: CartItemProps) {
     super(props);
-
+    this.decrValue = this.decrValue.bind(this);
+    this.incrValue = this.incrValue.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
   }
+
   removeProduct() {
     this.props.removeProductFromCartAC(this.props.id);
   }
+  decrValue() {
+    this.props.adjustQuantityAC(this.props.id, this.props.qty - 1);
+  }
+  incrValue() {
+    this.props.adjustQuantityAC(this.props.id, this.props.qty + 1);
+    if (this.props.qty == 0) {
+      this.props.removeProductFromCartAC(this.props.id);
+    }
+  }
   render() {
-    const { prices, brand, name, attributes, gallery, qty, id } = this.props;
+    const {
+      prices,
+      brand,
+      name,
+      attributes,
+      gallery,
+      qty,
+      id,
+      currentCurrency,
+    } = this.props;
     return (
       <>
         <div id={id} className={styles.wrapper}>
@@ -28,7 +50,7 @@ class CartItem extends Component<CartItemProps> {
             <h3 className={styles.name}>{name}</h3>
             <div className={styles.price}>
               {prices
-                .filter((p) => p.currency === this.props.currentCurrency)
+                .filter((p) => p.currency === currentCurrency)
                 .map((c) => {
                   return (
                     <div key={v4()}>
@@ -43,7 +65,7 @@ class CartItem extends Component<CartItemProps> {
               {attributes.map((a) => {
                 return a.items.map((i) => {
                   return (
-                    <SquareBtn className={styles.btn}>
+                    <SquareBtn key={v4()} className={styles.btn}>
                       {i.displayValue}
                     </SquareBtn>
                   );
@@ -53,12 +75,18 @@ class CartItem extends Component<CartItemProps> {
           </div>
           <div className={styles.productCount}>
             <div className={styles.count}>
-              <SquareBtn>+</SquareBtn>
+              <SquareBtn onClick={this.incrValue}>+</SquareBtn>
               <div className={styles.totalItems}>{qty}</div>
-              <SquareBtn>-</SquareBtn>
-              {/* <SquareBtn onClick={this.props.incrValue}>+</SquareBtn>
-              <div className={styles.totalItems}>0</div>
-              <SquareBtn onClick={this.props.decrValue}>-</SquareBtn> */}
+              <SquareBtn
+                style={
+                  this.props.qty == 0
+                    ? { cursor: "auto", background: "black", color: "#fff" }
+                    : {}
+                }
+                onClick={this.decrValue}
+              >
+                -
+              </SquareBtn>
             </div>
             <img className={styles.img} src={gallery[0]} alt={name} />
             <div onClick={this.removeProduct}>
@@ -81,7 +109,10 @@ const mapStateToProps = (state: AppStore): MapStateToPropsType => {
     currentCurrency: state.products.currentCurrency,
   };
 };
-export default connect(mapStateToProps, { removeProductFromCartAC })(CartItem);
+export default connect(mapStateToProps, {
+  removeProductFromCartAC,
+  adjustQuantityAC,
+})(CartItem);
 
 // Types
 type CartItemProps = {
@@ -92,9 +123,6 @@ type CartItemProps = {
   gallery: string[];
   qty: number;
   id: string;
-  // removeProduct: (productId: string) => void;
-  // incrValue: () => void;
-  // decrValue: () => void;
 } & MapStateToPropsType &
   MapDispatchType;
 type MapStateToPropsType = {
@@ -102,4 +130,5 @@ type MapStateToPropsType = {
 };
 type MapDispatchType = {
   removeProductFromCartAC: (productId: string) => void;
+  adjustQuantityAC: (productId: string, value: number) => void;
 };

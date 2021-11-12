@@ -14,9 +14,10 @@ class Categories extends Component<CategoriesPropsType> {
     this.props.getCategoriesTC();
   }
   render() {
+    const { categories } = this.props;
     return (
       <ul>
-        {this.props.categories.map((c) => {
+        {categories.map((c) => {
           return (
             <li key={c.name}>
               <NavLink

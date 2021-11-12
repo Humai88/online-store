@@ -1,12 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Category } from "../../grapgQL/CategoriesResponseType";
 import { Product } from "../../grapgQL/ProductResponseType";
-import {
-  GET_CATEGORIES,
-  GET_CURRENCIES,
-  GET_PRODUCTS_BY_CATEGORY_TITLE,
-  GET_PRODUCT_BY_ID,
-} from "../../grapgQL/queries";
+import * as queryes from "../../grapgQL/queries";
 import {
   ProductsActionTypes,
   getCategoriesAC,
@@ -36,10 +31,11 @@ const initialState: ProductsStateType = {
     attributes: [],
     brand: "",
   },
-  cart: [],
   currencies: [],
   currentCurrency: "USD",
-  totalAmount: 0,
+  cart: [],
+  totalCount: 0,
+  totalPrice: 0,
 };
 
 export const shopReducer = (
@@ -107,13 +103,40 @@ export const shopReducer = (
                     items: attr.items.map((i) => ({ ...i })),
                   };
                 }),
-                qty: action.payload.value,
+                qty: action.payload.value < 0 ? 0 : action.payload.value,
               }
             : p
         ),
       };
     case types.TOTAL_ITEMS_COUNT:
-      return { ...state };
+      return {
+        ...state,
+        totalCount: action.payload.productsInCart.reduce((a, b) => {
+          return a + b.qty;
+        }, 0),
+      };
+    case types.TOTAL_PRICE:
+      return {
+        ...state,
+        totalPrice:
+          action.payload.productsInCart.length > 0
+            ? action.payload.productsInCart
+                .map((p) => {
+                  return (
+                    p.prices
+                      .filter((i) => {
+                        return i.currency === action.payload.currentCurrency;
+                      })
+                      .reduce((c, b) => {
+                        return c + b.amount;
+                      }, 0) * p.qty
+                  );
+                })
+                .reduce((p, a) => {
+                  return p + a;
+                })
+            : 0,
+      };
     default:
       return state;
   }
@@ -123,7 +146,7 @@ export const shopReducer = (
 export const getCategoriesTC = (): ThunkType => (dispatch) => {
   client
     .query({
-      query: GET_CATEGORIES,
+      query: queryes.GET_CATEGORIES,
     })
     .then((res) => {
       dispatch(getCategoriesAC(res.data.categories));
@@ -135,7 +158,7 @@ export const getCategoriesTC = (): ThunkType => (dispatch) => {
 export const getCurrenciesTC = (): ThunkType => (dispatch) => {
   client
     .query({
-      query: GET_CURRENCIES,
+      query: queryes.GET_CURRENCIES,
     })
     .then((res) => {
       dispatch(getCurrenciesAC(res.data.currencies));
@@ -149,7 +172,7 @@ export const getProductsByCategoryTC =
   (dispatch) => {
     client
       .query({
-        query: GET_PRODUCTS_BY_CATEGORY_TITLE,
+        query: queryes.GET_PRODUCTS_BY_CATEGORY_TITLE,
         variables: { category },
       })
       .then((res) => {
@@ -164,7 +187,7 @@ export const getProductByIdTC =
   (dispatch) => {
     client
       .query({
-        query: GET_PRODUCT_BY_ID,
+        query: queryes.GET_PRODUCT_BY_ID,
         variables: { id },
       })
       .then((res) => {
@@ -182,7 +205,8 @@ export type ProductsStateType = {
   currencies: string[];
   currentCurrency: string;
   cart: CartItemType[];
-  totalAmount: number;
+  totalCount: number;
+  totalPrice: number;
 };
 export interface CartItemType extends Product {
   qty: number;
