@@ -3,11 +3,24 @@ import CartItem from "./CartItem";
 import styles from "./Cart.module.scss";
 import { AppStore } from "../../redux/store/store";
 import { CartItemType } from "../../redux/reducers/shopReducer";
-import { removeProductFromCartAC } from "../../redux/actions/shopActions";
+import {
+  removeProductFromCartAC,
+  setTotalPriceAC,
+} from "../../redux/actions/shopActions";
 import { connect } from "react-redux";
 class Cart extends Component<CartPPropsType> {
+  componentDidUpdate(prevProps: CartPPropsType) {
+    const productsInCart = this.props.cart;
+    const currentCurrency = this.props.currentCurrency;
+    if (
+      productsInCart !== prevProps.cart ||
+      currentCurrency !== prevProps.currentCurrency
+    ) {
+      this.props.setTotalPriceAC(productsInCart, currentCurrency);
+    }
+  }
   render() {
-    const { cart } = this.props;
+    const { cart, totalPrice, currentCurrency } = this.props;
     return (
       <div className={styles.wrapper}>
         <h2 className={styles.header}>Cart</h2>
@@ -25,6 +38,13 @@ class Cart extends Component<CartPPropsType> {
             />
           );
         })}
+        <div className={styles.totalPrice}>
+          <div className={styles.total}>Total</div>
+          <div className={styles.total}>
+            {currentCurrency}&nbsp;
+            {totalPrice.toFixed(2)}
+          </div>
+        </div>
       </div>
     );
   }
@@ -32,15 +52,26 @@ class Cart extends Component<CartPPropsType> {
 const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     cart: state.products.cart,
+    currentCurrency: state.products.currentCurrency,
+    totalPrice: state.products.totalPrice,
   };
 };
-export default connect(mapStateToProps, { removeProductFromCartAC })(Cart);
+export default connect(mapStateToProps, {
+  removeProductFromCartAC,
+  setTotalPriceAC,
+})(Cart);
 //Types
 type CartPPropsType = MapStateToPropsType & MapDispatchType;
 
 type MapDispatchType = {
   removeProductFromCartAC: (productId: string) => void;
+  setTotalPriceAC: (
+    productsInCart: CartItemType[],
+    currentCurrency: string
+  ) => void;
 };
 type MapStateToPropsType = {
   cart: CartItemType[];
+  currentCurrency: string;
+  totalPrice: number;
 };

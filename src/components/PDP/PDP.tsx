@@ -3,9 +3,11 @@ import styles from "./PDP.module.scss";
 import { Button } from "../../UI-kit/Button";
 import { RouteComponentProps } from "react-router-dom";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
-import { v4 } from "uuid";
 import { AppStore } from "../../redux/store/store";
-import { getProductByIdTC } from "../../redux/reducers/shopReducer";
+import {
+  getProductByIdTC,
+  getProductsByCategoryTC,
+} from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { addProductToCartAC } from "../../redux/actions/shopActions";
 import { Product } from "../../grapgQL/ProductResponseType";
@@ -23,7 +25,9 @@ class PDP extends Component<PDPPropsType> {
     this.props.addProductToCartAC(id);
   }
   componentDidMount() {
+    const category = this.props.match.params.category;
     const id = this.props.match.params.id;
+    this.props.getProductsByCategoryTC(category);
     this.props.getProductByIdTC(id);
   }
   componentDidUpdate(prevProps: PDPPropsType) {
@@ -54,15 +58,24 @@ class PDP extends Component<PDPPropsType> {
 
             {this.props.product.attributes.map((attr) => {
               return (
-                <div key={v4()}>
-                  {/* <h3>{attr.type}</h3> */}
+                <div key={attr.name}>
+                  <h3>{attr.type}</h3>
                   <div className={styles.attrName}>{attr.name}</div>
                   <div className={styles.attrValuesWrapper}>
                     {attr.items.map((item) => {
-                      return (
-                        <SquareBtn key={v4()} className={styles.attrValue}>
+                      return attr.type === "text" ? (
+                        <SquareBtn
+                          key={item.displayValue}
+                          className={styles.attrValue}
+                        >
                           {item.displayValue}
                         </SquareBtn>
+                      ) : (
+                        <SquareBtn
+                          key={item.displayValue}
+                          style={{ background: item.displayValue }}
+                          className={styles.attrValue}
+                        ></SquareBtn>
                       );
                     })}
                   </div>
@@ -75,7 +88,7 @@ class PDP extends Component<PDPPropsType> {
                 .filter((p) => p.currency === this.props.currentCurrency)
                 .map((c) => {
                   return (
-                    <div key={v4()}>
+                    <div key={c.currency}>
                       <span
                         dangerouslySetInnerHTML={{
                           __html: currencyConverter(c.currency),
@@ -121,6 +134,7 @@ const mapStateToProps = (state: AppStore): MapStateToPropsType => {
 export default connect(mapStateToProps, {
   getProductByIdTC,
   addProductToCartAC,
+  getProductsByCategoryTC,
 })(PDP);
 //Types
 type PDPPropsType = RouteComponentProps<PathParamsType> &
@@ -128,11 +142,13 @@ type PDPPropsType = RouteComponentProps<PathParamsType> &
   MapDispatchType;
 type PathParamsType = {
   id: string;
+  category: string;
 };
 
 type MapDispatchType = {
   addProductToCartAC: (productId: string) => void;
   getProductByIdTC: (id: string) => void;
+  getProductsByCategoryTC: (category: string) => void;
 };
 type MapStateToPropsType = {
   product: Product;
