@@ -1,3 +1,4 @@
+import { Attribute } from "./../../grapgQL/ProductResponseType";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Category } from "../../grapgQL/CategoriesResponseType";
 import { Product } from "../../grapgQL/ProductResponseType";
@@ -30,6 +31,7 @@ const initialState: ProductsStateType = {
     category: "",
     attributes: [],
     brand: "",
+    selectedAttr: [],
   },
   currencies: [],
   currentCurrency: "USD",
@@ -136,6 +138,30 @@ export const shopReducer = (
                   return p + a;
                 })
             : 0,
+      };
+    case types.SET_SELECTED_ATTR:
+      return {
+        ...state,
+        products: state.products.map((p) =>
+          p.id === action.payload.productId
+            ? {
+                ...p,
+                gallery: p.gallery.map((img) => img),
+                prices: p.prices.map((p) => ({ ...p })),
+                attributes: p.attributes.map((attr) => {
+                  const selected = attr.items.find(
+                    (i) => i.displayValue === action.payload.displayValue
+                  );
+                  return {
+                    ...attr,
+                    items: selected
+                      ? [selected]
+                      : attr.items.map((i) => ({ ...i })),
+                  };
+                }),
+              }
+            : p
+        ),
       };
     default:
       return state;

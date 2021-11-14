@@ -9,7 +9,7 @@
     font-weight: 600;
   }
   .name {
-    margin: 16px 0;
+    margin: 13px 0;
     font-size: 26px;
     font-weight: 400;
   }
@@ -20,9 +20,20 @@
   }
   .btnsWrapper {
     display: flex;
+    flex-direction: column;
     justify-content: start;
     flex-wrap: wrap;
     width: 90%;
+  }
+  .attrName {
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  .attrValue {
+    margin-right: 5px;
+  }
+  .attrValuesWrapper {
+    margin-bottom: 14px;
   }
   .btn {
     margin-right: 5px;

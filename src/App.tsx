@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import PLP from "./components/PLP/PLP";
 import styles from "./App.module.scss";
 import Navbar from "./components/Navbar/Navbar";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import PDP from "./components/PDP/PDP";
-import Cart from "./components/Cart/Cart";
+import { BrowserRouter, Switch } from "react-router-dom";
+import { Routes } from "./Routes";
 
 class App extends Component {
   render() {
@@ -13,9 +11,7 @@ class App extends Component {
         <Navbar />
         <main className={styles.main}>
           <Switch>
-            <Route path="/products/:category" exact component={PLP} />
-            <Route path="/products/:category/:id" exact component={PDP} />
-            <Route path="/cart" exact component={Cart} />
+            <Routes />
           </Switch>
         </main>
       </BrowserRouter>

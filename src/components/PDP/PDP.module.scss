@@ -22,7 +22,6 @@
   }
   .descrWrapper {
     width: 40%;
-    // border: 1px solid red;
     .brand {
       font-size: 30px;
       font-weight: 600;
@@ -40,13 +39,17 @@
       text-transform: uppercase;
     }
   }
+  .active {
+    border: 1px solid #5ece7b;
+    color: #5ece7b;
+  }
   .attrValuesWrapper {
     width: 100%;
     margin-top: 5px;
-
     width: 292px;
+
     .attrValue {
-      margin-right: 1rem;
+      margin-right: 4px;
       margin-bottom: 20px;
     }
   }

@@ -1,5 +1,5 @@
 import { Category } from "../../grapgQL/CategoriesResponseType";
-import { Product } from "../../grapgQL/ProductResponseType";
+import { Attribute, Product } from "../../grapgQL/ProductResponseType";
 import { CartItemType } from "../reducers/shopReducer";
 import * as types from "./types";
 
@@ -51,6 +51,16 @@ export const setTotalPriceAC = (
     payload: { productsInCart, currentCurrency },
   } as const;
 };
+export const setSelectedAttributesAC = (
+  productId: string,
+  displayValue: string
+) => {
+  return {
+    type: types.SET_SELECTED_ATTR,
+    payload: { productId, displayValue },
+  } as const;
+};
+// Разобраться здесь
 
 export type ProductsActionTypes =
   | ReturnType<typeof getCategoriesAC>
@@ -62,4 +72,5 @@ export type ProductsActionTypes =
   | ReturnType<typeof removeProductFromCartAC>
   | ReturnType<typeof adjustQuantityAC>
   | ReturnType<typeof setTotalItemsCountAC>
-  | ReturnType<typeof setTotalPriceAC>;
+  | ReturnType<typeof setTotalPriceAC>
+  | ReturnType<typeof setSelectedAttributesAC>;

@@ -12,6 +12,7 @@ import {
 class CartItem extends Component<CartItemProps> {
   constructor(props: CartItemProps) {
     super(props);
+
     this.decrValue = this.decrValue.bind(this);
     this.incrValue = this.incrValue.bind(this);
   }
@@ -40,8 +41,6 @@ class CartItem extends Component<CartItemProps> {
       currentCurrency,
     } = this.props;
 
-    console.log(qty);
-
     return (
       <>
         <div id={id} className={styles.wrapper}>
@@ -61,18 +60,36 @@ class CartItem extends Component<CartItemProps> {
                 })}
             </div>
 
-            <div className={styles.btnsWrapper}>
-              {attributes.map((a) => {
-                return a.items.map((i) => {
-                  return (
-                    <SquareBtn key={id} className={styles.btn}>
-                      {i.displayValue}
-                    </SquareBtn>
-                  );
-                });
-              })}
-            </div>
+            {attributes.map((a) => {
+              return (
+                <div className={styles.btnsWrapper} key={a.name}>
+                  <div className={styles.attrName}>{a.name}</div>
+                  <div className={styles.attrValuesWrapper}>
+                    {a.items.map((item) => {
+                      return a.type === "text" ? (
+                        <SquareBtn
+                          key={item.displayValue}
+                          className={styles.attrValue}
+                        >
+                          {item.displayValue}
+                        </SquareBtn>
+                      ) : (
+                        <SquareBtn
+                          key={item.displayValue}
+                          style={{
+                            background: item.displayValue,
+                            border: "none",
+                          }}
+                          className={styles.attrValue}
+                        ></SquareBtn>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
+
           <div className={styles.productCount}>
             <div className={styles.count}>
               <SquareBtn onClick={this.incrValue}>+</SquareBtn>

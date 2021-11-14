@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import styles from "./PDP.module.scss";
 import { Button } from "../../UI-kit/Button";
 import { RouteComponentProps } from "react-router-dom";
@@ -9,17 +9,27 @@ import {
   getProductsByCategoryTC,
 } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
-import { addProductToCartAC } from "../../redux/actions/shopActions";
-import { Product } from "../../grapgQL/ProductResponseType";
+import {
+  addProductToCartAC,
+  setSelectedAttributesAC,
+} from "../../redux/actions/shopActions";
+import { Attribute, Product } from "../../grapgQL/ProductResponseType";
 import { currencyConverter } from "../../helpers/functions";
 
-class PDP extends Component<PDPPropsType> {
+class PDP extends Component<PDPPropsType, StateType> {
   constructor(props: PDPPropsType) {
     super(props);
-    this.state = {};
+    this.state = { active: "" };
     this.addToCartHandler = this.addToCartHandler.bind(this);
+    this.setAttrHandler = this.setAttrHandler.bind(this);
   }
 
+  setAttrHandler({ displayValue }: Attribute, e: MouseEvent<HTMLDivElement>) {
+    const id = this.props.match.params.id;
+    this.setState({ active: e.currentTarget.id });
+    // console.log(e.currentTarget.id);
+    this.props.setSelectedAttributesAC(id, displayValue);
+  }
   addToCartHandler() {
     const id = this.props.match.params.id;
     this.props.addProductToCartAC(id);
@@ -59,22 +69,45 @@ class PDP extends Component<PDPPropsType> {
             {this.props.product.attributes.map((attr) => {
               return (
                 <div key={attr.name}>
-                  <h3>{attr.type}</h3>
                   <div className={styles.attrName}>{attr.name}</div>
                   <div className={styles.attrValuesWrapper}>
                     {attr.items.map((item) => {
+                      const id = `${item.displayValue}${attr.name
+                        .split(" ")
+                        .join("")}`;
+                      const activeClass = `${styles.attrValue} ${
+                        this.state.active ==
+                        `${item.displayValue}${attr.name.split(" ").join("")}`
+                          ? styles.active
+                          : ""
+                      }`;
                       return attr.type === "text" ? (
                         <SquareBtn
+                          id={id}
+                          onClick={this.setAttrHandler.bind(this, item)}
+                          style={{
+                            cursor: !this.props.product.inStock
+                              ? "auto"
+                              : "pointer",
+                          }}
                           key={item.displayValue}
-                          className={styles.attrValue}
+                          className={activeClass}
                         >
                           {item.displayValue}
                         </SquareBtn>
                       ) : (
                         <SquareBtn
+                          id={id}
+                          onClick={this.setAttrHandler.bind(this, item)}
                           key={item.displayValue}
-                          style={{ background: item.displayValue }}
-                          className={styles.attrValue}
+                          style={{
+                            background: item.displayValue,
+                            border: "none",
+                            cursor: !this.props.product.inStock
+                              ? "auto"
+                              : "pointer",
+                          }}
+                          className={activeClass}
                         ></SquareBtn>
                       );
                     })}
@@ -135,6 +168,7 @@ export default connect(mapStateToProps, {
   getProductByIdTC,
   addProductToCartAC,
   getProductsByCategoryTC,
+  setSelectedAttributesAC,
 })(PDP);
 //Types
 type PDPPropsType = RouteComponentProps<PathParamsType> &
@@ -144,11 +178,14 @@ type PathParamsType = {
   id: string;
   category: string;
 };
-
+type StateType = {
+  active: string;
+};
 type MapDispatchType = {
   addProductToCartAC: (productId: string) => void;
   getProductByIdTC: (id: string) => void;
   getProductsByCategoryTC: (category: string) => void;
+  setSelectedAttributesAC: (productId: string, displayValue: string) => void;
 };
 type MapStateToPropsType = {
   product: Product;

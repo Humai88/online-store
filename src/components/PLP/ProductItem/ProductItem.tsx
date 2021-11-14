@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { v4 } from "uuid";
 import { Price } from "../../../grapgQL/ProductResponseType";
 import { currencyConverter } from "../../../helpers/functions";
 import styles from "./ProductItem.module.scss";
@@ -22,7 +21,7 @@ export default class ProductItem extends Component<ProductItemPropsType> {
               .filter((p) => p.currency === currentCurrency)
               .map((c) => {
                 return (
-                  <div key={v4()}>
+                  <div key={c.currency}>
                     <span
                       dangerouslySetInnerHTML={{
                         __html: currencyConverter(c.currency),

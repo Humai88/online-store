@@ -18,6 +18,7 @@ export const fakeData: CartItemType[] = [
         amount: 104,
       },
     ],
+    selectedAttr: [],
     gallery: [
       "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_2_720x.jpg?v=1612816087",
     ],
@@ -50,6 +51,7 @@ export const fakeData: CartItemType[] = [
     id: "123",
     name: "T-Shirt",
     qty: 0,
+    selectedAttr: [],
     prices: [
       {
         currency: "USD",
