@@ -17,13 +17,13 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
     this.toggleShowCart = this.toggleShowCart.bind(this);
   }
   componentDidMount() {
-    const productsInCart = this.props.cart;
-    this.props.setTotalItemsCountAC(productsInCart);
+    const { cart } = this.props;
+    this.props.setTotalItemsCountAC(cart);
   }
   componentDidUpdate(prevProps: NavbarPropsType) {
-    const productsInCart = this.props.cart;
-    if (productsInCart !== prevProps.cart) {
-      this.props.setTotalItemsCountAC(productsInCart);
+    const { cart } = this.props;
+    if (cart !== prevProps.cart) {
+      this.props.setTotalItemsCountAC(cart);
     }
   }
 

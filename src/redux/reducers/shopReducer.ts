@@ -12,6 +12,7 @@ import {
 } from "../actions/shopActions";
 import * as types from "../actions/types";
 import { ThunkType } from "../store/store";
+import { setAppStatusAC } from "../actions/appActions";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -173,6 +174,7 @@ export const shopReducer = (
 
 // Thunks
 export const getCategoriesTC = (): ThunkType => (dispatch) => {
+  dispatch(setAppStatusAC("loading"));
   client
     .query({
       query: queryes.GET_CATEGORIES,
@@ -182,9 +184,13 @@ export const getCategoriesTC = (): ThunkType => (dispatch) => {
     })
     .catch((err) => {
       console.log("err:", err);
+    })
+    .finally(() => {
+      dispatch(setAppStatusAC("succeeded"));
     });
 };
 export const getCurrenciesTC = (): ThunkType => (dispatch) => {
+  dispatch(setAppStatusAC("loading"));
   client
     .query({
       query: queryes.GET_CURRENCIES,
@@ -194,11 +200,15 @@ export const getCurrenciesTC = (): ThunkType => (dispatch) => {
     })
     .catch((err) => {
       console.log("err:", err);
+    })
+    .finally(() => {
+      dispatch(setAppStatusAC("succeeded"));
     });
 };
 export const getProductsByCategoryTC =
   (category: string): ThunkType =>
   (dispatch) => {
+    dispatch(setAppStatusAC("loading"));
     client
       .query({
         query: queryes.GET_PRODUCTS_BY_CATEGORY_TITLE,
@@ -209,11 +219,15 @@ export const getProductsByCategoryTC =
       })
       .catch((err) => {
         console.log("err:", err);
+      })
+      .finally(() => {
+        dispatch(setAppStatusAC("succeeded"));
       });
   };
 export const getProductByIdTC =
   (id: string): ThunkType =>
   (dispatch) => {
+    dispatch(setAppStatusAC("loading"));
     client
       .query({
         query: queryes.GET_PRODUCT_BY_ID,
@@ -224,6 +238,9 @@ export const getProductByIdTC =
       })
       .catch((err) => {
         console.log("err:", err);
+      })
+      .finally(() => {
+        dispatch(setAppStatusAC("succeeded"));
       });
   };
 // Types

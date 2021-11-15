@@ -11,13 +11,12 @@ import { connect } from "react-redux";
 import { currencyConverter } from "../../helpers/functions";
 class Cart extends Component<CartPPropsType> {
   componentDidUpdate(prevProps: CartPPropsType) {
-    const productsInCart = this.props.cart;
-    const currentCurrency = this.props.currentCurrency;
+    const { cart, currentCurrency } = this.props;
     if (
-      productsInCart !== prevProps.cart ||
+      cart !== prevProps.cart ||
       currentCurrency !== prevProps.currentCurrency
     ) {
-      this.props.setTotalPriceAC(productsInCart, currentCurrency);
+      this.props.setTotalPriceAC(cart, currentCurrency);
     }
   }
   render() {

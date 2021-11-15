@@ -6,23 +6,26 @@ import { AppStore } from "../../redux/store/store";
 import { getProductsByCategoryTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { Product } from "../../grapgQL/ProductResponseType";
+import { RequestStatusType } from "../../redux/reducers/appReducer";
+import { Spinner } from "../../UI-kit/Spinner";
 
 class PLP extends Component<PLPPropsType> {
   componentDidMount() {
-    const category = this.props.match.params.category;
+    const { category } = this.props.match.params;
     this.props.getProductsByCategoryTC(category);
   }
   componentDidUpdate(prevProps: PLPPropsType) {
-    const category = this.props.match.params.category;
+    const { category } = this.props.match.params;
     if (category !== prevProps.match.params.category) {
       this.props.getProductsByCategoryTC(category);
     }
   }
   render() {
-    const category = this.props.match.params.category;
-    const { products, currentCurrency } = this.props;
+    const { category } = this.props.match.params;
+    const { products, currentCurrency, status } = this.props;
     return (
       <>
+        {status === "loading" && <Spinner />}
         <div className={styles.wrapper}>
           <>
             {products.map((p) => {
@@ -48,6 +51,7 @@ const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     products: state.products.products,
     currentCurrency: state.products.currentCurrency,
+    status: state.app.status,
   };
 };
 export default connect(mapStateToProps, {
@@ -69,4 +73,5 @@ type MapDispatchType = {
 type MapStateToPropsType = {
   products: Product[];
   currentCurrency: string;
+  status: RequestStatusType;
 };

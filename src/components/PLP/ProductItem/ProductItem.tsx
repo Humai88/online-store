@@ -14,6 +14,7 @@ export default class ProductItem extends Component<ProductItemPropsType> {
           style={{ opacity: inStock ? "1" : "0.6" }}
           className={styles.content}
         >
+          {!inStock && <span className={styles.outOfStock}>OUT OF STOCK</span>}
           <img className={styles.img} src={imgSrc} alt={title} />
           <div className={styles.title}>{title}</div>
           <div className={styles.price}>

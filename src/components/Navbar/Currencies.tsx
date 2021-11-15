@@ -5,6 +5,8 @@ import { getCurrenciesTC } from "../../redux/reducers/shopReducer";
 import { connect } from "react-redux";
 import { setCurrentCurrencyAC } from "../../redux/actions/shopActions";
 import { currencyConverter } from "../../helpers/functions";
+import { RequestStatusType } from "../../redux/reducers/appReducer";
+import { Spinner } from "../../UI-kit/Spinner";
 
 class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   constructor(props: CurrenciesPropsType) {
@@ -35,9 +37,10 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   }
   render() {
     const { currentCurrency } = this.state;
-    const { currencies } = this.props;
+    const { currencies, status } = this.props;
     return (
       <>
+        {status === "loading" && <Spinner />}
         <select value={currentCurrency} onChange={this.handleChange}>
           {currencies.map((c) => {
             return (
@@ -56,9 +59,10 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
   }
 }
 
-const mapStateToProps = (state: AppStore): CurrencyQueryResponse => {
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     currencies: state.products.currencies,
+    status: state.app.status,
   };
 };
 type CurrenciesStateType = {
@@ -73,4 +77,10 @@ type MapDispatchType = {
   getCurrenciesTC: () => void;
   setCurrentCurrencyAC: (currency: string) => void;
 };
-type CurrenciesPropsType = CurrencyQueryResponse & MapDispatchType;
+type MapStateToPropsType = {
+  currencies: string[];
+  status: RequestStatusType;
+};
+type CurrenciesPropsType = CurrencyQueryResponse &
+  MapDispatchType &
+  MapStateToPropsType;

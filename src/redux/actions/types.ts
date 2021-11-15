@@ -11,3 +11,5 @@ export const LOAD_CURRENT_ITEM = "LOAD_CURRENT_ITEM";
 export const TOTAL_ITEMS_COUNT = "TOTAL_ITEMS_COUNT";
 export const TOTAL_PRICE = "TOTAL_PRICE";
 export const SET_SELECTED_ATTR = "SET_SELECTED_ATTR";
+// App actions types
+export const SET_STATUS = "SET_STATUS";

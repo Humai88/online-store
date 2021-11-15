@@ -15,13 +15,18 @@ import {
 } from "../../redux/actions/shopActions";
 import { Product } from "../../grapgQL/ProductResponseType";
 import { currencyConverter } from "../../helpers/functions";
+import { RequestStatusType } from "../../redux/reducers/appReducer";
+import { Spinner } from "../../UI-kit/Spinner";
+import CartOverlay from "../CartOverlay/CartOverlay";
 
 class PDP extends Component<PDPPropsType, StateType> {
   constructor(props: PDPPropsType) {
     super(props);
-    this.state = { active: [], toggleActive: false };
+
+    this.state = { active: [], toggleActive: false, showCart: false };
     this.addToCartHandler = this.addToCartHandler.bind(this);
     this.setAttrHandler = this.setAttrHandler.bind(this);
+    this.toggleShowCart = this.toggleShowCart.bind(this);
   }
 
   setAttrHandler(
@@ -29,35 +34,44 @@ class PDP extends Component<PDPPropsType, StateType> {
     attrId: string,
     e: MouseEvent<HTMLDivElement>
   ) {
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
     this.setState({
       active: [...this.state.active, e.currentTarget.id],
       toggleActive: !this.state.toggleActive,
     });
-
     this.props.setSelectedAttributesAC(id, displayValue, attrId);
   }
+
   addToCartHandler() {
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
     this.props.addProductToCartAC(id);
+    this.toggleShowCart();
+  }
+
+  toggleShowCart() {
+    this.setState((prevState) => ({
+      showCart: !prevState.showCart,
+    }));
   }
   componentDidMount() {
-    const category = this.props.match.params.category;
-    const id = this.props.match.params.id;
+    const { category, id } = this.props.match.params;
     this.props.getProductsByCategoryTC(category);
     this.props.getProductByIdTC(id);
   }
-  componentDidUpdate(prevProps: PDPPropsType) {
-    const id = this.props.match.params.id;
+
+  componentDidUpdate(prevProps: PDPPropsType, prevState: StateType) {
+    const { id } = this.props.match.params;
     if (id !== prevProps.match.params.id) {
       this.props.getProductByIdTC(id);
     }
   }
   render() {
-    const { active, toggleActive } = this.state;
-    const { product, currentCurrency } = this.props;
+    const { active, toggleActive, showCart } = this.state;
+    const { product, currentCurrency, status } = this.props;
     return (
       <div>
+        {showCart && <CartOverlay toggleShowCart={this.toggleShowCart} />}
+        {status === "loading" && <Spinner />}
         <div className={styles.wrapper}>
           <div className={styles.imgPreviewWrapper}>
             {product.gallery.slice(1).map((img) => {
@@ -170,6 +184,7 @@ const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     product: state.products.product,
     currentCurrency: state.products.currentCurrency,
+    status: state.app.status,
   };
 };
 export default connect(mapStateToProps, {
@@ -189,6 +204,7 @@ type PathParamsType = {
 type StateType = {
   active: string[];
   toggleActive: boolean;
+  showCart: boolean;
 };
 type MapDispatchType = {
   addProductToCartAC: (productId: string) => void;
@@ -203,7 +219,5 @@ type MapDispatchType = {
 type MapStateToPropsType = {
   product: Product;
   currentCurrency: string;
+  status: RequestStatusType;
 };
-function setValue(state: string) {
-  throw new Error("Function not implemented.");
-}

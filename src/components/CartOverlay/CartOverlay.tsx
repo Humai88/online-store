@@ -22,16 +22,15 @@ class CartOverlay extends Component<PropsType> {
     this.props.setTotalPriceAC(productsInCart, currentCurrency);
   }
   componentDidUpdate(prevProps: PropsType) {
-    const productsInCart = this.props.cart;
-    const currentCurrency = this.props.currentCurrency;
-    if (productsInCart !== prevProps.cart) {
-      this.props.setTotalItemsCountAC(productsInCart);
+    const { cart, currentCurrency } = this.props;
+    if (cart !== prevProps.cart) {
+      this.props.setTotalItemsCountAC(cart);
     }
     if (
-      productsInCart !== prevProps.cart ||
+      cart !== prevProps.cart ||
       currentCurrency !== prevProps.currentCurrency
     ) {
-      this.props.setTotalPriceAC(productsInCart, currentCurrency);
+      this.props.setTotalPriceAC(cart, currentCurrency);
     }
   }
 

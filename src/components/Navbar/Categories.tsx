@@ -6,17 +6,23 @@ import {
   getCategoriesTC,
   getProductsByCategoryTC,
 } from "../../redux/reducers/shopReducer";
-import { CategoriesQueryResponse } from "../../grapgQL/CategoriesResponseType";
+import {
+  CategoriesQueryResponse,
+  Category,
+} from "../../grapgQL/CategoriesResponseType";
 import { AppStore } from "../../redux/store/store";
+import { RequestStatusType } from "../../redux/reducers/appReducer";
+import { Spinner } from "../../UI-kit/Spinner";
 
 class Categories extends Component<CategoriesPropsType> {
   componentDidMount() {
     this.props.getCategoriesTC();
   }
   render() {
-    const { categories } = this.props;
+    const { categories, status } = this.props;
     return (
       <ul>
+        {status === "loading" && <Spinner />}
         {categories.map((c) => {
           return (
             <li key={c.name}>
@@ -34,9 +40,10 @@ class Categories extends Component<CategoriesPropsType> {
     );
   }
 }
-const mapStateToProps = (state: AppStore): CategoriesQueryResponse => {
+const mapStateToProps = (state: AppStore): MapStateToPropsType => {
   return {
     categories: state.products.categories,
+    status: state.app.status,
   };
 };
 export default connect(mapStateToProps, {
@@ -48,4 +55,10 @@ export default connect(mapStateToProps, {
 type MapDispatchType = {
   getCategoriesTC: () => void;
 };
-type CategoriesPropsType = CategoriesQueryResponse & MapDispatchType;
+type MapStateToPropsType = {
+  categories: Category[];
+  status: RequestStatusType;
+};
+type CategoriesPropsType = CategoriesQueryResponse &
+  MapDispatchType &
+  MapStateToPropsType;

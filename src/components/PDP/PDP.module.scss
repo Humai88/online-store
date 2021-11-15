@@ -44,6 +44,9 @@
     color: #ffffff;
   }
   .activeSwatch {
+    height: 23px;
+    width: 23px;
+    box-shadow: 1px 1px 2px $color-body;
   }
   .attrValuesWrapper {
     width: 100%;
@@ -52,7 +55,7 @@
 
     .attrValue {
       margin-right: 4px;
-      margin-bottom: 20px;
+      margin-bottom: 7px;
     }
   }
   .price {

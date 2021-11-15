@@ -2,7 +2,7 @@
 .wrapper {
   width: 386px;
   height: 444px;
-  padding: 16px;
+  padding: 5px;
   margin-bottom: 2rem;
   cursor: pointer;
   flex: 0 0 33.333333%;
@@ -16,6 +16,15 @@
     flex-direction: column;
     width: 356px;
     margin: 0 auto;
+    position: relative;
+  }
+  .outOfStock {
+    font-size: 1.7rem;
+    color: black;
+    position: absolute;
+    z-index: 100;
+    top: 190px;
+    left: 90px;
   }
   .img {
     display: block;

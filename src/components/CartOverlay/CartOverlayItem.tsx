@@ -18,16 +18,19 @@ class CartOverlayItem extends Component<CartItemProps> {
   }
 
   componentDidUpdate(prevProps: CartItemProps) {
-    if (this.props.qty === 0 && this.props.qty !== prevProps.qty) {
-      this.props.removeProductFromCartAC(this.props.id);
+    const { id, qty } = this.props;
+    if (qty === 0 && qty !== prevProps.qty) {
+      this.props.removeProductFromCartAC(id);
     }
   }
 
   decrValue() {
-    this.props.adjustQuantityAC(this.props.id, this.props.qty - 1);
+    const { id, qty } = this.props;
+    this.props.adjustQuantityAC(id, qty - 1);
   }
   incrValue() {
-    this.props.adjustQuantityAC(this.props.id, this.props.qty + 1);
+    const { id, qty } = this.props;
+    this.props.adjustQuantityAC(id, qty + 1);
   }
   render() {
     const {
