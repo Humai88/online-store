@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
+import { currencyConverter } from "../../helpers/functions";
 import {
   setTotalItemsCountAC,
   setTotalPriceAC,
@@ -9,8 +10,10 @@ import { CartItemType } from "../../redux/reducers/shopReducer";
 import { AppStore } from "../../redux/store/store";
 import { Button } from "../../UI-kit/Button";
 import { Modal } from "../../UI-kit/Modal";
-import CartItem from "./CartItem";
+
 import styles from "./CartOverlay.module.scss";
+import CartOverlayItem from "./CartOverlayItem";
+
 class CartOverlay extends Component<PropsType> {
   componentDidMount() {
     const productsInCart = this.props.cart;
@@ -42,7 +45,7 @@ class CartOverlay extends Component<PropsType> {
           <div className={styles.cartItems}>My bag, {totalCount}</div>
           {this.props.cart.map((p) => {
             return (
-              <CartItem
+              <CartOverlayItem
                 id={p.id}
                 qty={p.qty}
                 key={p.id}
@@ -57,7 +60,11 @@ class CartOverlay extends Component<PropsType> {
           <div className={styles.totalPrice}>
             <div className={styles.total}>Total</div>
             <div className={styles.total}>
-              {currentCurrency}&nbsp;
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: currencyConverter(currentCurrency),
+                }}
+              ></span>
               {totalPrice.toFixed(2)}
             </div>
           </div>

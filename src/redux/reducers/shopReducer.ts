@@ -150,7 +150,10 @@ export const shopReducer = (
                 prices: p.prices.map((p) => ({ ...p })),
                 attributes: p.attributes.map((attr) => {
                   const selected = attr.items.find(
-                    (i) => i.displayValue === action.payload.displayValue
+                    (i) =>
+                      i.displayValue === action.payload.displayValue &&
+                      i.displayValue + attr.name.split(" ").join("") ===
+                        action.payload.id
                   );
                   return {
                     ...attr,

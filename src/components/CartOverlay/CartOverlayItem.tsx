@@ -3,17 +3,16 @@ import { connect } from "react-redux";
 import { AttributeSet, Price } from "../../grapgQL/ProductResponseType";
 import { AppStore } from "../../redux/store/store";
 import { SquareBtn } from "../../UI-kit/SquareBtn";
-import styles from "./CartItem.module.scss";
+import styles from "./CartOverlayItem.module.scss";
 import {
   adjustQuantityAC,
   removeProductFromCartAC,
 } from "../../redux/actions/shopActions";
 import { currencyConverter } from "../../helpers/functions";
 
-class CartItem extends Component<CartItemProps> {
+class CartOverlayItem extends Component<CartItemProps> {
   constructor(props: CartItemProps) {
     super(props);
-
     this.decrValue = this.decrValue.bind(this);
     this.incrValue = this.incrValue.bind(this);
   }
@@ -105,8 +104,8 @@ class CartItem extends Component<CartItemProps> {
               </SquareBtn>
               <div className={styles.totalItems}>{qty}</div>
               <SquareBtn
-                onClick={this.decrValue}
                 className={styles.adjustCountBtn}
+                onClick={this.decrValue}
               >
                 -
               </SquareBtn>
@@ -126,7 +125,7 @@ const mapStateToProps = (state: AppStore): MapStateToPropsType => {
 export default connect(mapStateToProps, {
   removeProductFromCartAC,
   adjustQuantityAC,
-})(CartItem);
+})(CartOverlayItem);
 
 // Types
 type CartItemProps = {

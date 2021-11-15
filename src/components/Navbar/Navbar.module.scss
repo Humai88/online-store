@@ -1,3 +1,4 @@
+@import "./../../scss/global.scss";
 .wrapper {
   height: 80px;
   display: flex;
@@ -19,10 +20,10 @@
         font-size: 16px;
         font-weight: 400;
         text-decoration: none;
-        color: black;
+        color: $color-body;
         transition: 0.2s all;
         &:hover {
-          color: #5ece7b;
+          color: $color-first;
         }
       }
       .underline {
@@ -37,15 +38,15 @@
     }
     .active .underline {
       width: 100%;
-      background-color: #5ece7b;
+      background-color: $color-first;
     }
     .active {
-      color: #5ece7b;
+      color: $color-first;
     }
   }
 
   ul li:hover .underline {
-    background-color: #5ece7b;
+    background-color: $color-first;
     width: 100%;
   }
   ul li:nth-child(n + 2) {

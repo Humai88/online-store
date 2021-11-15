@@ -34,10 +34,12 @@ class Currencies extends Component<CurrenciesPropsType, CurrenciesStateType> {
     }
   }
   render() {
+    const { currentCurrency } = this.state;
+    const { currencies } = this.props;
     return (
       <>
-        <select value={this.state.currentCurrency} onChange={this.handleChange}>
-          {this.props.currencies.map((c) => {
+        <select value={currentCurrency} onChange={this.handleChange}>
+          {currencies.map((c) => {
             return (
               <option
                 value={c}

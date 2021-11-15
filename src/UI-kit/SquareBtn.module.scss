@@ -1,6 +1,7 @@
+@import "./../scss/global.scss";
 .squareBtn {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid $color-body;
   text-align: center;
   padding: 10px;
   cursor: pointer;
@@ -8,7 +9,7 @@
   font-size: 14px;
   font-weight: 600;
   &:hover {
-    background-color: black;
+    background-color: $color-body;
     color: #fff;
   }
 }

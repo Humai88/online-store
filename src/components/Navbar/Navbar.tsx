@@ -3,12 +3,12 @@ import styles from "./Navbar.module.scss";
 import { BsCart2 } from "react-icons/bs";
 import logo from "./../../assests/2021-11-06 21_23_46-Junior Frontend Test Designs (Public) – Figma.jpg";
 import Categories from "./Categories";
-import CartOverlay from "../Cart/CartOverlay";
 import Currencies from "./Currencies";
 import { connect } from "react-redux";
 import { AppStore } from "../../redux/store/store";
 import { CartItemType } from "../../redux/reducers/shopReducer";
 import { setTotalItemsCountAC } from "../../redux/actions/shopActions";
+import CartOverlay from "../CartOverlay/CartOverlay";
 
 class Navbar extends Component<NavbarPropsType, NavbarStateType> {
   constructor(props: NavbarPropsType) {
@@ -33,11 +33,11 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
     }));
   }
   render() {
+    const { showCart } = this.state;
+    const { totalCount } = this.props;
     return (
       <>
-        {this.state.showCart && (
-          <CartOverlay toggleShowCart={this.toggleShowCart} />
-        )}
+        {showCart && <CartOverlay toggleShowCart={this.toggleShowCart} />}
         <div className={styles.wrapper}>
           <ul>
             <Categories />
@@ -50,7 +50,7 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
                 className={styles.cartIcon}
                 onClick={this.toggleShowCart}
                 style={
-                  this.props.totalCount > 0
+                  totalCount > 0
                     ? {
                         color: "#2f7c43",
                       }
@@ -59,7 +59,7 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
               />
               <div
                 style={
-                  this.props.totalCount > 0
+                  totalCount > 0
                     ? {
                         background: "#2f7c43",
                       }
@@ -67,7 +67,7 @@ class Navbar extends Component<NavbarPropsType, NavbarStateType> {
                 }
                 className={styles.itemsCount}
               >
-                {this.props.totalCount}
+                {totalCount}
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+@import "./../../scss/global.scss";
 .cartWrapper {
   display: flex;
   flex-direction: column;
@@ -28,11 +29,11 @@
     padding: 8px 28px;
     font-size: 14px;
     background-color: #fff;
-    border: 1px solid black;
-    color: black;
+    border: 1px solid $color-body;
+    color: $color-body;
     &:hover {
-      background-color: rgb(24, 24, 24);
-      border: 1px solid rgb(24, 24, 24);
+      background-color: $color-body;
+      border: 1px solid $color-body;
       color: #fff;
     }
   }

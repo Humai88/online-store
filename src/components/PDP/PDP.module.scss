@@ -40,8 +40,10 @@
     }
   }
   .active {
-    border: 1px solid #5ece7b;
-    color: #5ece7b;
+    background-color: $color-body;
+    color: #ffffff;
+  }
+  .activeSwatch {
   }
   .attrValuesWrapper {
     width: 100%;

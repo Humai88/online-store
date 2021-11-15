@@ -1,9 +1,12 @@
+@import "./../../scss/global.scss";
 .wrapper {
-  //   background-color: rgb(129, 127, 127);
   .header {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 80px;
+  }
+  .total {
+    margin-bottom: 3rem;
   }
   .totalPrice {
     display: flex;

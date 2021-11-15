@@ -13,22 +13,29 @@ import {
   addProductToCartAC,
   setSelectedAttributesAC,
 } from "../../redux/actions/shopActions";
-import { Attribute, Product } from "../../grapgQL/ProductResponseType";
+import { Product } from "../../grapgQL/ProductResponseType";
 import { currencyConverter } from "../../helpers/functions";
 
 class PDP extends Component<PDPPropsType, StateType> {
   constructor(props: PDPPropsType) {
     super(props);
-    this.state = { active: "" };
+    this.state = { active: [], toggleActive: false };
     this.addToCartHandler = this.addToCartHandler.bind(this);
     this.setAttrHandler = this.setAttrHandler.bind(this);
   }
 
-  setAttrHandler({ displayValue }: Attribute, e: MouseEvent<HTMLDivElement>) {
+  setAttrHandler(
+    displayValue: string,
+    attrId: string,
+    e: MouseEvent<HTMLDivElement>
+  ) {
     const id = this.props.match.params.id;
-    this.setState({ active: e.currentTarget.id });
-    // console.log(e.currentTarget.id);
-    this.props.setSelectedAttributesAC(id, displayValue);
+    this.setState({
+      active: [...this.state.active, e.currentTarget.id],
+      toggleActive: !this.state.toggleActive,
+    });
+
+    this.props.setSelectedAttributesAC(id, displayValue, attrId);
   }
   addToCartHandler() {
     const id = this.props.match.params.id;
@@ -47,24 +54,26 @@ class PDP extends Component<PDPPropsType, StateType> {
     }
   }
   render() {
+    const { active, toggleActive } = this.state;
+    const { product, currentCurrency } = this.props;
     return (
       <div>
         <div className={styles.wrapper}>
           <div className={styles.imgPreviewWrapper}>
-            {this.props.product.gallery.slice(1).map((img) => {
+            {product.gallery.slice(1).map((img) => {
               return <img key={img} className={styles.imgPreview} src={img} />;
             })}
           </div>
           <div className={styles.mainImgWrapper}>
             <img
               className={styles.mainImg}
-              src={this.props.product.gallery[0]}
-              alt={this.props.product.name}
+              src={product.gallery[0]}
+              alt={product.name}
             />
           </div>
           <div className={styles.descrWrapper}>
-            <h2 className={styles.brand}>{this.props.product.brand}</h2>
-            <h3 className={styles.name}>{this.props.product.name}</h3>
+            <h2 className={styles.brand}>{product.brand}</h2>
+            <h3 className={styles.name}>{product.name}</h3>
 
             {this.props.product.attributes.map((attr) => {
               return (
@@ -75,39 +84,38 @@ class PDP extends Component<PDPPropsType, StateType> {
                       const id = `${item.displayValue}${attr.name
                         .split(" ")
                         .join("")}`;
-                      const activeClass = `${styles.attrValue} ${
-                        this.state.active ==
-                        `${item.displayValue}${attr.name.split(" ").join("")}`
-                          ? styles.active
-                          : ""
-                      }`;
+
                       return attr.type === "text" ? (
                         <SquareBtn
                           id={id}
-                          onClick={this.setAttrHandler.bind(this, item)}
-                          style={{
-                            cursor: !this.props.product.inStock
-                              ? "auto"
-                              : "pointer",
-                          }}
+                          onClick={this.setAttrHandler.bind(
+                            this,
+                            item.displayValue,
+                            id
+                          )}
                           key={item.displayValue}
-                          className={activeClass}
+                          className={`${styles.attrValue} ${
+                            active.includes(id) ? styles.active : ""
+                          }`}
                         >
                           {item.displayValue}
                         </SquareBtn>
                       ) : (
                         <SquareBtn
                           id={id}
-                          onClick={this.setAttrHandler.bind(this, item)}
+                          onClick={this.setAttrHandler.bind(
+                            this,
+                            item.displayValue,
+                            id
+                          )}
                           key={item.displayValue}
                           style={{
                             background: item.displayValue,
                             border: "none",
-                            cursor: !this.props.product.inStock
-                              ? "auto"
-                              : "pointer",
                           }}
-                          className={activeClass}
+                          className={`${styles.attrValue} ${
+                            active.includes(id) ? styles.activeSwatch : ""
+                          }`}
                         ></SquareBtn>
                       );
                     })}
@@ -117,8 +125,8 @@ class PDP extends Component<PDPPropsType, StateType> {
             })}
             <h2 className={styles.attrName}>Price:</h2>
             <div className={styles.price}>
-              {this.props.product.prices
-                .filter((p) => p.currency === this.props.currentCurrency)
+              {product.prices
+                .filter((p) => p.currency === currentCurrency)
                 .map((c) => {
                   return (
                     <div key={c.currency}>
@@ -134,7 +142,7 @@ class PDP extends Component<PDPPropsType, StateType> {
             </div>
 
             <Button
-              disabled={!this.props.product.inStock}
+              disabled={!product.inStock}
               className={styles.btn}
               onClick={this.addToCartHandler}
             >
@@ -146,9 +154,9 @@ class PDP extends Component<PDPPropsType, StateType> {
                 className={styles.productDescr}
                 dangerouslySetInnerHTML={{
                   __html:
-                    this.props.product.description.length > 300
-                      ? `${this.props.product.description.substring(0, 300)}...`
-                      : this.props.product.description,
+                    product.description.length > 400
+                      ? `${product.description.substring(0, 400)}...`
+                      : product.description,
                 }}
               />
             )}
@@ -179,13 +187,18 @@ type PathParamsType = {
   category: string;
 };
 type StateType = {
-  active: string;
+  active: string[];
+  toggleActive: boolean;
 };
 type MapDispatchType = {
   addProductToCartAC: (productId: string) => void;
   getProductByIdTC: (id: string) => void;
   getProductsByCategoryTC: (category: string) => void;
-  setSelectedAttributesAC: (productId: string, displayValue: string) => void;
+  setSelectedAttributesAC: (
+    productId: string,
+    displayValue: string,
+    id: string
+  ) => void;
 };
 type MapStateToPropsType = {
   product: Product;

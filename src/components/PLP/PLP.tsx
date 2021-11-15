@@ -20,11 +20,12 @@ class PLP extends Component<PLPPropsType> {
   }
   render() {
     const category = this.props.match.params.category;
+    const { products, currentCurrency } = this.props;
     return (
       <>
         <div className={styles.wrapper}>
           <>
-            {this.props.products.map((p) => {
+            {products.map((p) => {
               return (
                 <ProductItem
                   key={p.id}
@@ -33,7 +34,7 @@ class PLP extends Component<PLPPropsType> {
                   imgSrc={p.gallery[0]}
                   title={`${p.brand} ${p.name}`}
                   prices={p.prices}
-                  currentCurrency={this.props.currentCurrency}
+                  currentCurrency={currentCurrency}
                 />
               );
             })}

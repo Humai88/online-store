@@ -1,9 +1,10 @@
+@import "./../scss/global.scss";
 .btn {
   text-transform: uppercase;
   font-size: 16px;
   font-weight: 500;
   padding: 16px 32px;
-  background: #5ece7b;
+  background: $color-first;
   color: white;
   outline: none;
   border: none;
@@ -16,6 +17,6 @@
     cursor: auto;
   }
   &[disabled]:hover {
-    background: #5ece7b;
+    background: $color-first;
   }
 }

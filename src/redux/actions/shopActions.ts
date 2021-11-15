@@ -53,11 +53,12 @@ export const setTotalPriceAC = (
 };
 export const setSelectedAttributesAC = (
   productId: string,
-  displayValue: string
+  displayValue: string,
+  id: string
 ) => {
   return {
     type: types.SET_SELECTED_ATTR,
-    payload: { productId, displayValue },
+    payload: { productId, displayValue, id },
   } as const;
 };
 // Разобраться здесь

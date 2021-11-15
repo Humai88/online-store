@@ -8,6 +8,7 @@ import {
   setTotalPriceAC,
 } from "../../redux/actions/shopActions";
 import { connect } from "react-redux";
+import { currencyConverter } from "../../helpers/functions";
 class Cart extends Component<CartPPropsType> {
   componentDidUpdate(prevProps: CartPPropsType) {
     const productsInCart = this.props.cart;
@@ -41,7 +42,11 @@ class Cart extends Component<CartPPropsType> {
         <div className={styles.totalPrice}>
           <div className={styles.total}>Total</div>
           <div className={styles.total}>
-            {currentCurrency}&nbsp;
+            <span
+              dangerouslySetInnerHTML={{
+                __html: currencyConverter(currentCurrency),
+              }}
+            ></span>
             {totalPrice.toFixed(2)}
           </div>
         </div>
