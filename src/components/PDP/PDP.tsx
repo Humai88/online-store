@@ -23,7 +23,10 @@ class PDP extends Component<PDPPropsType, StateType> {
   constructor(props: PDPPropsType) {
     super(props);
 
-    this.state = { active: [], toggleActive: false, showCart: false };
+    this.state = {
+      active: [],
+      showCart: false,
+    };
     this.addToCartHandler = this.addToCartHandler.bind(this);
     this.setAttrHandler = this.setAttrHandler.bind(this);
     this.toggleShowCart = this.toggleShowCart.bind(this);
@@ -32,14 +35,30 @@ class PDP extends Component<PDPPropsType, StateType> {
   setAttrHandler(
     displayValue: string,
     attrId: string,
+    name: string,
     e: MouseEvent<HTMLDivElement>
   ) {
     const { id } = this.props.match.params;
-    this.setState({
-      active: [...this.state.active, e.currentTarget.id],
-      toggleActive: !this.state.toggleActive,
-    });
-    this.props.setSelectedAttributesAC(id, displayValue, attrId);
+    const item = this.state.active.find((a) =>
+      a.includes(name.split(" ").join(""))
+    );
+    console.log(attrId);
+
+    // this.setState({
+    //   active: item
+    //     ? this.state.active.filter((el) => el !== item)
+    //     : [...this.state.active, e.currentTarget.id],
+    // });
+    this.setState(
+      {
+        active: item
+          ? this.state.active.filter((el) => el !== item)
+          : [...this.state.active, e.currentTarget.id],
+      },
+      () => {
+        this.props.setSelectedAttributesAC(id, displayValue, attrId);
+      }
+    );
   }
 
   addToCartHandler() {
@@ -64,9 +83,12 @@ class PDP extends Component<PDPPropsType, StateType> {
     if (id !== prevProps.match.params.id) {
       this.props.getProductByIdTC(id);
     }
+
+    if (prevState.active !== this.state.active) {
+    }
   }
   render() {
-    const { active, toggleActive, showCart } = this.state;
+    const { active, showCart } = this.state;
     const { product, currentCurrency, status } = this.props;
     return (
       <div>
@@ -105,7 +127,8 @@ class PDP extends Component<PDPPropsType, StateType> {
                           onClick={this.setAttrHandler.bind(
                             this,
                             item.displayValue,
-                            id
+                            id,
+                            attr.name
                           )}
                           key={item.displayValue}
                           className={`${styles.attrValue} ${
@@ -120,7 +143,8 @@ class PDP extends Component<PDPPropsType, StateType> {
                           onClick={this.setAttrHandler.bind(
                             this,
                             item.displayValue,
-                            id
+                            id,
+                            attr.name
                           )}
                           key={item.displayValue}
                           style={{
@@ -203,7 +227,6 @@ type PathParamsType = {
 };
 type StateType = {
   active: string[];
-  toggleActive: boolean;
   showCart: boolean;
 };
 type MapDispatchType = {
