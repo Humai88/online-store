@@ -1,22 +1,21 @@
 @import "./../../../scss/global.scss";
 .wrapper {
-  // width: 386px;
-  // height: 444px;
-
-  // border: 1px solid red;
   flex: 0 0 33.333333%;
   .content {
     display: flex;
     flex-direction: column;
-    width: 76%;
+    width: 73%;
     margin: 0 auto;
     position: relative;
-    padding: 20px;
+    padding: 23px 27px;
     margin-bottom: 2rem;
     cursor: pointer;
     color: $color-body;
+    border-radius: 20px;
+    transition: all 0.6s;
+
     &:hover {
-      box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+      box-shadow: 5px 5px 16px #bdbdbd, -5px -5px 16px #ffffff;
     }
   }
   .outOfStock {
