@@ -1,22 +1,23 @@
 @import "./../../../scss/global.scss";
 .wrapper {
-  width: 386px;
-  height: 444px;
-  padding: 5px;
-  margin-bottom: 2rem;
-  cursor: pointer;
-  flex: 0 0 33.333333%;
-  color: $color-body;
+  // width: 386px;
+  // height: 444px;
+
   // border: 1px solid red;
-  &:hover {
-    box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
-  }
+  flex: 0 0 33.333333%;
   .content {
     display: flex;
     flex-direction: column;
-    width: 356px;
+    width: 76%;
     margin: 0 auto;
     position: relative;
+    padding: 20px;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    color: $color-body;
+    &:hover {
+      box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+    }
   }
   .outOfStock {
     font-size: 1.7rem;
