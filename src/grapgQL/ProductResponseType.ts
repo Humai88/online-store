@@ -21,6 +21,7 @@ export interface AttributeSet {
 }
 export interface Attribute {
   displayValue: string;
+  value: string;
 }
 export interface Price {
   currency: string;

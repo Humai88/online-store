@@ -7,8 +7,11 @@
   .imgPreviewWrapper {
     display: flex;
     flex-direction: column;
-    width: 100px;
-    justify-content: space-between;
+    width: 150px;
+
+    .imgPreview {
+      margin-bottom: 1rem;
+    }
   }
   .mainImgWrapper {
     width: 40%;
@@ -16,7 +19,7 @@
     justify-content: center;
     align-items: center;
     .mainImg {
-      width: 100%;
+      width: 95%;
       height: 70vh;
     }
   }

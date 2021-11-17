@@ -148,7 +148,7 @@ class PDP extends Component<PDPPropsType, StateType> {
                           )}
                           key={item.displayValue}
                           style={{
-                            background: item.displayValue,
+                            background: item.value,
                             border: "none",
                           }}
                           className={`${styles.attrValue} ${
