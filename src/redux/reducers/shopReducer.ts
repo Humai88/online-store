@@ -15,7 +15,7 @@ import { ThunkType } from "../store/store";
 import { setAppStatusAC } from "../actions/appActions";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/",
+  uri: "https://store-back-portfolio.herokuapp.com/",
   cache: new InMemoryCache(),
 });
 
