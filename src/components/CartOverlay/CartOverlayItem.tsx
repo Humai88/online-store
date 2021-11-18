@@ -78,13 +78,13 @@ class CartOverlayItem extends Component<CartItemProps> {
                           key={item.displayValue}
                           className={styles.attrValue}
                         >
-                          {item.displayValue}
+                          {item.value}
                         </SquareBtn>
                       ) : (
                         <SquareBtn
                           key={item.displayValue}
                           style={{
-                            background: item.displayValue,
+                            background: item.value,
                             border: "none",
                           }}
                           className={styles.attrValue}

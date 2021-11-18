@@ -44,11 +44,6 @@ class PDP extends Component<PDPPropsType, StateType> {
     );
     console.log(attrId);
 
-    // this.setState({
-    //   active: item
-    //     ? this.state.active.filter((el) => el !== item)
-    //     : [...this.state.active, e.currentTarget.id],
-    // });
     this.setState(
       {
         active: item
@@ -117,7 +112,7 @@ class PDP extends Component<PDPPropsType, StateType> {
                   <div className={styles.attrName}>{attr.name}</div>
                   <div className={styles.attrValuesWrapper}>
                     {attr.items.map((item) => {
-                      const id = `${item.displayValue}${attr.name
+                      const id = `${item.value}${attr.name
                         .split(" ")
                         .join("")}`;
 
@@ -126,7 +121,7 @@ class PDP extends Component<PDPPropsType, StateType> {
                           id={id}
                           onClick={this.setAttrHandler.bind(
                             this,
-                            item.displayValue,
+                            item.value,
                             id,
                             attr.name
                           )}
@@ -135,14 +130,14 @@ class PDP extends Component<PDPPropsType, StateType> {
                             active.includes(id) ? styles.active : ""
                           }`}
                         >
-                          {item.displayValue}
+                          {item.value}
                         </SquareBtn>
                       ) : (
                         <SquareBtn
                           id={id}
                           onClick={this.setAttrHandler.bind(
                             this,
-                            item.displayValue,
+                            item.value,
                             id,
                             attr.name
                           )}

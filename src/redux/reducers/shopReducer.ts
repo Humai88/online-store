@@ -152,8 +152,8 @@ export const shopReducer = (
                 attributes: p.attributes.map((attr) => {
                   const selected = attr.items.find(
                     (i) =>
-                      i.displayValue === action.payload.displayValue &&
-                      i.displayValue + attr.name.split(" ").join("") ===
+                      i.value === action.payload.displayValue &&
+                      i.value + attr.name.split(" ").join("") ===
                         action.payload.id
                   );
                   return {

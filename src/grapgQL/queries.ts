@@ -26,6 +26,7 @@ export const GET_PRODUCTS_BY_CATEGORY_TITLE = gql`
           name
           items {
             displayValue
+            value
           }
         }
         inStock
