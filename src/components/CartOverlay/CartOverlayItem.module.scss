@@ -37,6 +37,13 @@
       font-size: 12px;
       padding: 6px;
       margin-bottom: 5px;
+
+      &:hover {
+        border: 1px solid $color-body;
+        color: $color-body;
+        background-color: #fff;
+        cursor: auto;
+      }
     }
     .attrValuesWrapper {
       margin-bottom: 5px;

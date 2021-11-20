@@ -3,7 +3,10 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
+  @include media-query("max", $palm-start) {
+  }
+  @include media-query("lap") {
+  }
   .imgPreviewWrapper {
     display: flex;
     flex-direction: column;

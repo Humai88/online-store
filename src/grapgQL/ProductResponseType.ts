@@ -8,7 +8,6 @@ export interface Product {
   attributes: AttributeSet[];
   description: string;
   category: string;
-  selectedAttr: string[];
 }
 export interface PDPQueryResponse {
   product: Product;

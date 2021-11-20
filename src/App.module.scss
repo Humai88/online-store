@@ -1,3 +1,4 @@
+@import "./scss/global.scss";
 *,
 *:before,
 *:after {
@@ -78,4 +79,10 @@ h6 {
 
 .main {
   padding: 0 100px;
+  @include media-query("max", $palm-start) {
+    padding: 0 10px;
+  }
+  @include media-query("lap") {
+    padding: 0 50px;
+  }
 }

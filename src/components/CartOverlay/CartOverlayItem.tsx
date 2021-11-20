@@ -66,6 +66,31 @@ class CartOverlayItem extends Component<CartItemProps> {
                   );
                 })}
             </div>
+            {/* {attributes.map((a) => {
+              return (
+                <div className={styles.btnsWrapper} key={a.name}>
+                  <div className={styles.attrName}>{a.name}</div>
+                  <div className={styles.attrValuesWrapper}>
+                    {a.selectedItems.map((item) => {
+                      return a.type === "text" ? (
+                        <SquareBtn key={item} className={styles.attrValue}>
+                          {item}
+                        </SquareBtn>
+                      ) : (
+                        <SquareBtn
+                          key={item}
+                          style={{
+                            background: item,
+                            border: "none",
+                          }}
+                          className={styles.attrValue}
+                        ></SquareBtn>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })} */}
 
             {attributes.map((a) => {
               return (

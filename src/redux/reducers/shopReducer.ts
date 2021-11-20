@@ -32,7 +32,6 @@ const initialState: ProductsStateType = {
     category: "",
     attributes: [],
     brand: "",
-    selectedAttr: [],
   },
   currencies: [],
   currentCurrency: "USD",
@@ -71,8 +70,6 @@ export const shopReducer = (
                   p.id === action.payload.productId
                     ? {
                         ...p,
-                        gallery: p.gallery.map((img) => img),
-                        prices: p.prices.map((p) => ({ ...p })),
                         attributes: p.attributes.map((attr) => {
                           return {
                             ...attr,
@@ -98,8 +95,6 @@ export const shopReducer = (
           p.id === action.payload.productId
             ? {
                 ...p,
-                gallery: p.gallery.map((img) => img),
-                prices: p.prices.map((p) => ({ ...p })),
                 attributes: p.attributes.map((attr) => {
                   return {
                     ...attr,
@@ -147,8 +142,6 @@ export const shopReducer = (
           p.id === action.payload.productId
             ? {
                 ...p,
-                gallery: p.gallery.map((img) => img),
-                prices: p.prices.map((p) => ({ ...p })),
                 attributes: p.attributes.map((attr) => {
                   const selected = attr.items.find(
                     (i) =>
@@ -167,6 +160,7 @@ export const shopReducer = (
             : p
         ),
       };
+
     default:
       return state;
   }

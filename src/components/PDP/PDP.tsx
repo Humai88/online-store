@@ -66,13 +66,10 @@ class PDP extends Component<PDPPropsType, StateType> {
     this.props.getProductByIdTC(id);
   }
 
-  componentDidUpdate(prevProps: PDPPropsType, prevState: StateType) {
+  componentDidUpdate(prevProps: PDPPropsType) {
     const { id } = this.props.match.params;
     if (id !== prevProps.match.params.id) {
       this.props.getProductByIdTC(id);
-    }
-
-    if (prevState.active !== this.state.active) {
     }
   }
   render() {
