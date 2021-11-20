@@ -32,23 +32,16 @@ class PDP extends Component<PDPPropsType, StateType> {
     this.toggleShowCart = this.toggleShowCart.bind(this);
   }
 
-  setAttrHandler(
-    displayValue: string,
-    attrId: string,
-    name: string,
-    e: MouseEvent<HTMLDivElement>
-  ) {
+  setAttrHandler(displayValue: string, attrId: string, name: string) {
     const { id } = this.props.match.params;
     const item = this.state.active.find((a) =>
       a.includes(name.split(" ").join(""))
     );
-    console.log(attrId);
 
+    const arr = this.state.active.filter((el) => el !== item);
     this.setState(
       {
-        active: item
-          ? this.state.active.filter((el) => el !== item)
-          : [...this.state.active, e.currentTarget.id],
+        active: [...arr, attrId],
       },
       () => {
         this.props.setSelectedAttributesAC(id, displayValue, attrId);
@@ -119,12 +112,9 @@ class PDP extends Component<PDPPropsType, StateType> {
                       return attr.type === "text" ? (
                         <SquareBtn
                           id={id}
-                          onClick={this.setAttrHandler.bind(
-                            this,
-                            item.value,
-                            id,
-                            attr.name
-                          )}
+                          onClick={() => {
+                            this.setAttrHandler(item.value, id, attr.name);
+                          }}
                           key={item.displayValue}
                           className={`${styles.attrValue} ${
                             active.includes(id) ? styles.active : ""
@@ -135,12 +125,9 @@ class PDP extends Component<PDPPropsType, StateType> {
                       ) : (
                         <SquareBtn
                           id={id}
-                          onClick={this.setAttrHandler.bind(
-                            this,
-                            item.value,
-                            id,
-                            attr.name
-                          )}
+                          onClick={() => {
+                            this.setAttrHandler(item.value, id, attr.name);
+                          }}
                           key={item.displayValue}
                           style={{
                             background: item.value,
