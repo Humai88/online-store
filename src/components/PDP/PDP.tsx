@@ -80,12 +80,15 @@ class PDP extends Component<PDPPropsType, StateType> {
         {showCart && <CartOverlay toggleShowCart={this.toggleShowCart} />}
         {status === "loading" && <Spinner />}
         <div className={styles.wrapper}>
-          <div className={styles.imgPreviewWrapper}>
-            {product.gallery.slice(1).map((img) => {
-              return <img key={img} className={styles.imgPreview} src={img} />;
-            })}
-          </div>
-          <div className={styles.mainImgWrapper}>
+          <div className={styles.images}>
+            <div className={styles.imgPreviewWrapper}>
+              {product.gallery.slice(1).map((img) => {
+                return (
+                  <img key={img} className={styles.imgPreview} src={img} />
+                );
+              })}
+            </div>
+
             <img
               className={styles.mainImg}
               src={product.gallery[0]}

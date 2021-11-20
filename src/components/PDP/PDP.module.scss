@@ -3,46 +3,105 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
   @include media-query("max", $palm-start) {
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0 10px 40px 10px;
   }
   @include media-query("lap") {
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0 10px 40px 10px;
+  }
+
+  .images {
+    display: flex;
+    justify-content: space-between;
+    width: 43%;
+    flex-wrap: wrap;
+
+    @include media-query("max", $palm-start) {
+      flex-direction: column-reverse;
+      margin: 0 auto;
+      width: 100%;
+    }
+    @include media-query("lap") {
+      flex-direction: row;
+      width: 100%;
+    }
   }
   .imgPreviewWrapper {
     display: flex;
     flex-direction: column;
     width: 150px;
-
+    flex-wrap: wrap;
+    @include media-query("max", $palm-start) {
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+    }
+    @include media-query("lap") {
+      width: 35%;
+      flex-direction: row;
+    }
     .imgPreview {
       margin-bottom: 1rem;
+      width: 140px;
+      @include media-query("lap") {
+        width: 180px;
+      }
     }
   }
-  .mainImgWrapper {
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .mainImg {
-      width: 95%;
-      height: 70vh;
+
+  .mainImg {
+    width: 580px;
+    height: 600px;
+    @include media-query("max", $palm-start) {
+      width: 300px;
+      height: 320px;
+      margin: 0 auto;
+    }
+    @include media-query("lap") {
+      width: 65%;
+      height: auto;
     }
   }
+
   .descrWrapper {
-    width: 40%;
+    width: 45%;
+    @include media-query("max", $palm-start) {
+      width: 100%;
+    }
+    @include media-query("lap") {
+      width: 100%;
+      text-align: center;
+      margin-top: 2rem;
+    }
     .brand {
       font-size: 30px;
       font-weight: 600;
       margin-bottom: 16px;
+      @include media-query("max", $palm-start) {
+        font-size: 27px;
+      }
     }
     .name {
       font-size: 30px;
       font-weight: 400;
-      margin-bottom: 43px;
+      margin-bottom: 23px;
+      @include media-query("max", $palm-start) {
+        font-size: 27px;
+      }
     }
     .attrName {
       font-size: 18px;
       font-weight: 700;
       font-family: $roboto;
       text-transform: uppercase;
+      @include media-query("max", $palm-start) {
+        font-size: 15px;
+      }
     }
   }
   .active {
@@ -58,22 +117,49 @@
     width: 100%;
     margin-top: 5px;
     width: 292px;
-
+    @include media-query("lap") {
+      margin: 0 auto;
+      margin-bottom: 15px;
+    }
     .attrValue {
       margin-right: 4px;
       margin-bottom: 7px;
+      @include media-query("max", $palm-start) {
+        padding: 6px;
+      }
     }
   }
   .price {
     font-size: 24px;
     font-weight: 700;
     margin-top: 10px;
+    @include media-query("max", $palm-start) {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    @include media-query("lap") {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
   }
   .btn {
     width: 292px;
     margin: 25px 0 40px 0;
+    @include media-query("max", $palm-start) {
+      width: 160px;
+      margin: 5px 0 10px 0;
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    @include media-query("lap") {
+      margin: 0 auto;
+    }
   }
   .productDescr {
     width: 292px;
+    @include media-query("lap") {
+      margin: 0 auto;
+      padding: 20px 0 40px 0;
+    }
   }
 }
