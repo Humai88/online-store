@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/online-store/static/css/main.40c36361.chunk.css",
+    "main.css": "/online-store/static/css/main.09e69a24.chunk.css",
     "main.js": "/online-store/static/js/main.cb593143.chunk.js",
     "main.js.map": "/online-store/static/js/main.cb593143.chunk.js.map",
     "runtime-main.js": "/online-store/static/js/runtime-main.7a5eba3f.js",
@@ -8,14 +8,14 @@
     "static/js/2.16cf6deb.chunk.js": "/online-store/static/js/2.16cf6deb.chunk.js",
     "static/js/2.16cf6deb.chunk.js.map": "/online-store/static/js/2.16cf6deb.chunk.js.map",
     "index.html": "/online-store/index.html",
-    "static/css/main.40c36361.chunk.css.map": "/online-store/static/css/main.40c36361.chunk.css.map",
+    "static/css/main.09e69a24.chunk.css.map": "/online-store/static/css/main.09e69a24.chunk.css.map",
     "static/js/2.16cf6deb.chunk.js.LICENSE.txt": "/online-store/static/js/2.16cf6deb.chunk.js.LICENSE.txt",
     "static/media/Ajax-Loading.a5a2590c.svg": "/online-store/static/media/Ajax-Loading.a5a2590c.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.7a5eba3f.js",
     "static/js/2.16cf6deb.chunk.js",
-    "static/css/main.40c36361.chunk.css",
+    "static/css/main.09e69a24.chunk.css",
     "static/js/main.cb593143.chunk.js"
   ]
 }
