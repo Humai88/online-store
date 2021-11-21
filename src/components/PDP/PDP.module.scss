@@ -125,7 +125,7 @@
       margin-right: 4px;
       margin-bottom: 7px;
       @include media-query("max", $palm-start) {
-        padding: 6px;
+        padding: 12px;
       }
     }
   }

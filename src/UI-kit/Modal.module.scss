@@ -1,3 +1,4 @@
+@import "./../scss/global.scss";
 .backdrop {
   position: fixed;
   top: 80px;
@@ -17,6 +18,14 @@
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
   padding: 20px;
+  @include media-query("max", $palm-start) {
+    width: 100%;
+    right: 0;
+  }
+  @include media-query("lap") {
+    width: 370px;
+    right: 50px;
+  }
 }
 
 @keyframes slide-down {

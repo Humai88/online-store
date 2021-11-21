@@ -37,6 +37,10 @@
       font-size: 12px;
       padding: 6px;
       margin-bottom: 5px;
+      @include media-query("max", $palm-start) {
+        width: 100%;
+        right: 0;
+      }
 
       &:hover {
         border: 1px solid $color-body;

@@ -4,6 +4,9 @@
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 80px;
+    @include media-query("max", $palm-start) {
+      font-size: 27px;
+    }
   }
   .total {
     margin-bottom: 3rem;
