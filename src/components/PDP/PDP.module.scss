@@ -18,7 +18,7 @@
   .images {
     display: flex;
     justify-content: space-between;
-    width: 43%;
+    width: 53%;
     flex-wrap: wrap;
 
     @include media-query("max", $palm-start) {
@@ -31,6 +31,7 @@
       width: 100%;
     }
   }
+
   .imgPreviewWrapper {
     display: flex;
     flex-direction: column;
@@ -69,7 +70,7 @@
   }
 
   .descrWrapper {
-    width: 45%;
+    width: 35%;
     @include media-query("max", $palm-start) {
       width: 100%;
     }
